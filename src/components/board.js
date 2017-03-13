@@ -9,18 +9,18 @@ import {addList} from '../actions';
 
 export class Board extends React.Component {
     addList(title) {
-        this.props.dispatch(addList(title, this.props.params.boardId));
+        this.props.dispatch(addList(title, this.props.match.params.boardId));
     }
 
     render() {
         const lists = this.props.lists.map((list, index) =>
-            <List key={index} index={index} boardId={this.props.params.boardId}
+            <List key={index} index={index} boardId={this.props.match.params.boardId}
                 {...list} />
         );
 
         return (
             <div className="board">
-                <h2>{this.props.params.boardId}</h2>
+                <h2>{this.props.match.params.boardId}</h2>
                 <div className="lists">
                     {lists}
                     <AddForm type="list" onAdd={title => this.addList(title)} />
@@ -37,7 +37,7 @@ Board.defaultProps = {
 const mapStateToProps = (state, props) => {
     const board = Object.assign({}, {
         lists: []
-    }, state.boards[props.params.boardId]);
+    }, state.boards[props.match.params.boardId]);
     return {
         lists: board.lists
     };

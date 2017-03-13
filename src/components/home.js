@@ -24,7 +24,7 @@ export default class Home extends React.Component {
 
     goToBoard(event) {
         event.preventDefault();
-        this.props.router.push(`/board/${this.slugify(this.state.text)}`);
+        this.props.history.push(`/board/${this.slugify(this.state.text)}`);
     }
 
     render() {
