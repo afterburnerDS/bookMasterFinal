@@ -1,0 +1,8 @@
+.board {
+    padding: 74px 10px 10px 10px;
+}
+
+.lists {
+    display: flex;
+    align-items: flex-start;
+}

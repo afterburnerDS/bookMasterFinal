@@ -3,6 +3,8 @@ import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 import Home from './home';
 import Board from './board';
 
+import './app.css';
+
 export default function App(props) {
     return (
         <Router>
