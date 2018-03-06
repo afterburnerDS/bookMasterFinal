@@ -1,6 +1,12 @@
-import {createStore} from 'redux'
+import {createStore, combineReducers} from 'redux'
+import {reducer as formReducer} from 'redux-form'
 
-import {trelloReducer} from './reducers';
+import {bookReducer} from './reducers';
+console.log(bookReducer);
 
-export default createStore(trelloReducer);
-
+export default createStore(
+    combineReducers({
+        form: formReducer,
+        bookReducer
+    })
+);
