@@ -11,18 +11,19 @@ const defaultBook = {
 
 export const bookReducer = (state=initialState, action) => {
     if (action.type === actions.ADD_BOOK) {
-        const {title} = action;
+        const {title, author} = action;
         let books = state.books
         books = [...state.books, {
             annotations: [],
-            title
+            title,
+            author
         }];
         return Object.assign({}, state, {
             books: books
         });
     }
     else if (action.type === actions.ADD_ANNOTATION) {
-        const {text, bookIndex} = action;
+        const {title, annotation, bookIndex} = action;
         let books = state.books;
         books = state.books.map((book, index) => {
             if (book.title.replace(/ /g, "-") !== bookIndex) {
@@ -30,7 +31,8 @@ export const bookReducer = (state=initialState, action) => {
             }
              let newBook = Object.assign({}, book, {
                 annotations: [...book.annotations, {
-                    text
+                    title,
+                    annotation
                 }]
             });
             console.log(newBook);

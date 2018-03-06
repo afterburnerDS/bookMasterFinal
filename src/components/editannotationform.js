@@ -3,7 +3,7 @@ import {reduxForm, Field, SubmissionError, focus} from 'redux-form';
 import Input from './input';
 import {required, nonEmpty, email} from '../validators';
 
-export class ContactForm extends React.Component {
+export class EditAnnotationForm extends React.Component {
 
     constructor(props) {
         super(props);
@@ -95,6 +95,7 @@ export class ContactForm extends React.Component {
                     type="text"
                     component={Input}
                     label="Title"
+                    value={this.props.title}
                     validate={[required, nonEmpty]}
                 />
 
@@ -103,6 +104,7 @@ export class ContactForm extends React.Component {
                     element="textarea"
                     component={Input}
                     label="Annotation"
+                    value={this.props.annotation}
                     validate={[required, nonEmpty]}
                 />
                 <button
@@ -119,4 +121,4 @@ export default reduxForm({
     form: 'contact',
     // onSubmitFail: (errors, dispatch) =>
     //     dispatch(focus('contact', Object.keys(errors)[0]))
-})(ContactForm);
+})(EditAnnotationForm);

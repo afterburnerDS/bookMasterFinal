@@ -3,7 +3,7 @@ import {reduxForm, Field, SubmissionError, focus} from 'redux-form';
 import Input from './input';
 import {required, nonEmpty, email} from '../validators';
 
-export class ContactForm extends React.Component {
+export class RegisterForm extends React.Component {
 
     constructor(props) {
         super(props);
@@ -15,10 +15,14 @@ export class ContactForm extends React.Component {
         event.preventDefault();
        
         const title = values.title.trim();
-        const annotation = values.annotation.trim();
+        const cover = values.cover.trim();
+        const author = values.author.trim(); 
+        const pages = values.pages.trim();
+        const date = values.date.trim();
+        const description = values.description.trim();
 
-        if (title && annotation && this.props.onAdd) {
-            this.props.onAdd(title, annotation);
+        if (title && author && this.props.onAdd) {
+            this.props.onAdd(title, author);
         }
 
         // return fetch('/api/messages', {
@@ -91,24 +95,31 @@ export class ContactForm extends React.Component {
                 {successMessage}
                 {errorMessage}
                 <Field
-                    name="title"
+                    name="name"
                     type="text"
                     component={Input}
-                    label="Title"
+                    label="Name"
                     validate={[required, nonEmpty]}
                 />
-
-                 <Field
-                    name="annotation"
-                    element="textarea"
+                <Field
+                    name="username"
+                    type="text"
                     component={Input}
-                    label="Annotation"
+                    label="Username"
+                    validate={[required, nonEmpty]}
+                />
+               
+                <Field
+                    name="password"
+                    type="password"
+                    component={Input}
+                    label="Password"
                     validate={[required, nonEmpty]}
                 />
                 <button
                     type="submit"
                     disabled={this.props.pristine || this.props.submitting}>
-                    Add Book
+                    Register
                 </button>
             </form>
         );
@@ -119,4 +130,4 @@ export default reduxForm({
     form: 'contact',
     // onSubmitFail: (errors, dispatch) =>
     //     dispatch(focus('contact', Object.keys(errors)[0]))
-})(ContactForm);
+})(RegisterForm);

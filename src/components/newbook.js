@@ -3,7 +3,7 @@ import {reduxForm, Field, SubmissionError, focus} from 'redux-form';
 import Input from './input';
 import {required, nonEmpty, email} from '../validators';
 
-export class ContactForm extends React.Component {
+export class NewBook extends React.Component {
 
     constructor(props) {
         super(props);
@@ -15,10 +15,14 @@ export class ContactForm extends React.Component {
         event.preventDefault();
        
         const title = values.title.trim();
-        const annotation = values.annotation.trim();
+        const cover = values.cover.trim();
+        const author = values.author.trim(); 
+        const pages = values.pages.trim();
+        const date = values.date.trim();
+        const description = values.description.trim();
 
-        if (title && annotation && this.props.onAdd) {
-            this.props.onAdd(title, annotation);
+        if (title && author && this.props.onAdd) {
+            this.props.onAdd(title, author);
         }
 
         // return fetch('/api/messages', {
@@ -97,12 +101,43 @@ export class ContactForm extends React.Component {
                     label="Title"
                     validate={[required, nonEmpty]}
                 />
+                <Field
+                    name="cover"
+                    type="text"
+                    component={Input}
+                    label="Cover (URL)"
+                    validate={[required, nonEmpty]}
+                />
+               
+                <Field
+                    name="author"
+                    type="text"
+                    component={Input}
+                    label="Author"
+                    validate={[required, nonEmpty]}
+                />
 
                  <Field
-                    name="annotation"
+                    name="pages"
+                    type="text"
+                    component={Input}
+                    label="Pages"
+                    validate={[required, nonEmpty]}
+                />
+
+                  <Field
+                    name="date"
+                    type="text"
+                    component={Input}
+                    label="Date of Publication"
+                    validate={[required, nonEmpty]}
+                />
+
+                 <Field
+                    name="description"
                     element="textarea"
                     component={Input}
-                    label="Annotation"
+                    label="Description"
                     validate={[required, nonEmpty]}
                 />
                 <button
@@ -119,4 +154,4 @@ export default reduxForm({
     form: 'contact',
     // onSubmitFail: (errors, dispatch) =>
     //     dispatch(focus('contact', Object.keys(errors)[0]))
-})(ContactForm);
+})(NewBook);

@@ -1,12 +1,14 @@
 export const ADD_BOOK = 'ADD_BOOK';
-export const addBook = (title) => ({
+export const addBook = (title, author) => ({
     type: ADD_BOOK,
-    title
+    title,
+    author
 });
 
 export const ADD_ANNOTATION = 'ADD_ANNOTATION';
-export const addAnnotation = (text,bookIndex) => ({
+export const addAnnotation = (title, annotation,bookIndex) => ({
     type: ADD_ANNOTATION,
-    text,
+    title,
+    annotation,
     bookIndex
 });

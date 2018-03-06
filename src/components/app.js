@@ -5,6 +5,7 @@ import Bookshelf from './bookshelf';
 import BookPage from './bookpage';
 import AnnotationPage from './annotationpage';
 import MySmallModal from './mysmallmodal';
+import EditAnnotation from './editannotation';
 
 import './app.css';
 
@@ -31,6 +32,7 @@ export default function App(props) {
                     <Route exact path="/bookshelf" component={Bookshelf} />
                     <Route exact path="/bookpage/:bookIndex" component={BookPage} />
                     <Route exact path="/annotation/:bookIndex/:annotationId" component={AnnotationPage} />
+                    <Route exact path="/editannotation/:bookIndex/:annotationId" component={EditAnnotation} />
                 
             </div>
         </Router>

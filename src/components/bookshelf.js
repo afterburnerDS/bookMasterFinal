@@ -8,8 +8,7 @@ import AddBook from './add-book';
 // import ReactModal from 'react-modal';
 import {reduxForm, Field, SubmissionError, focus} from 'redux-form';
 import Input from './input';
-import ContactForm from './contactform'
- import MySmallModal from './mysmallmodal';
+import NewBook from './newbook'
  import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Popover, Tooltip, OverlayTrigger  } from 'react-bootstrap';
 
 
@@ -34,19 +33,12 @@ export class BookShelf extends React.Component  {
         this.setState({ show: true });
       }
 
-    addBook(title){
-        this.props.dispatch(addBook(title));
+    addBook(title, author){
+        this.props.dispatch(addBook(title, author));
     }
 
     render() {
 
-        const popover = (
-            <Popover id="modal-popover" title="popover">
-              very popover. such engagement
-            </Popover>
-          );
-
-          const tooltip = <Tooltip id="modal-tooltip">wow.</Tooltip>;
         
         const books = this.props.books.map((book, index) => (
          
@@ -55,7 +47,6 @@ export class BookShelf extends React.Component  {
                     {...book}
                    
                 /> 
-            
         ));
 
         return (
@@ -63,12 +54,12 @@ export class BookShelf extends React.Component  {
 
                 <div className="newBook">
                     <div className="newBook__new">
-
+                     
     
                  <div>
     
             <Button bsStyle="primary" bsSize="large" onClick={this.handleShow}>
-              Launch demo modal
+              New Book
             </Button>
     
             <Modal show={this.state.show} onHide={this.handleClose}>
@@ -77,7 +68,9 @@ export class BookShelf extends React.Component  {
               </Modal.Header>
               <Modal.Body>
 
-                <ContactForm />
+                <NewBook
+                
+                onAdd={(title, author) => this.addBook(title, author)}/>
               
               </Modal.Body>
               <Modal.Footer>
@@ -106,9 +99,9 @@ BookShelf.defaultProps = {
 
 const mapStateToProps = (state, props) => {
 
-    console.log(state.books);
+    
    return{
-            books: state.books
+            books: state.bookReducer.books
             
         }
    ;

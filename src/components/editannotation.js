@@ -1,8 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
+import {EditAnnotationForm} from  './editannotationform'
+import {ContactForm} from './contactform'
 
-export  class  AnnotaionPage extends React.Component {
+export  class  EditAnnotation extends React.Component {
 
     slugify(title) {
         return title
@@ -20,14 +22,11 @@ export  class  AnnotaionPage extends React.Component {
             <main className="container">
                 <div className="backBtn"> <Link to={`/bookpage/${this.props.bookIndex}`}>back </Link></div>
 
-                <div className="editBtn"> <Link to={`/editannotation/${slugifyTtitleBook}/${slugifyTtitleAnnot}`}>edit </Link></div>
+                <EditAnnotationForm 
+                    title={this.props.title}
+                    annotation={this.props.annotation}
+                />
 
-                    <div className="title">
-                        {this.props.title}
-                    </div>
-                    <div className="annotation">
-                        {this.props.annotation}
-                    </div>
                 </main>
         
      );
@@ -60,4 +59,4 @@ const mapStateToProps = (state, props) => {
     
 };
 
-export default connect(mapStateToProps)(AnnotaionPage);
+export default connect(mapStateToProps)(EditAnnotation);

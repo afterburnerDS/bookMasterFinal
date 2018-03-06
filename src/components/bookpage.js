@@ -4,16 +4,39 @@ import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 import {addAnnotation} from '../actions';
 import AddAnnotation from './add-annotation';
 import Annotation from './annotation';
+import Input from './input';
+import ContactForm from './contactform'
+ import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Popover, Tooltip, OverlayTrigger  } from 'react-bootstrap';
+import { AnnotationForm } from './annotationform';
 
-export class  BookPage extends React.Component {
+export class BookPage extends React.Component {
 
-    addAnnotation(text){
-        this.props.dispatch(addAnnotation(text,this.props.match.params.bookIndex));
+    constructor(props, context) {
+        super(props, context);
+    
+        this.handleShow = this.handleShow.bind(this);
+        this.handleClose = this.handleClose.bind(this);
+    
+        this.state = {
+          show: false
+        };
+      }
+    
+      handleClose() {
+        this.setState({ show: false });
+      }
+    
+      handleShow() {
+        this.setState({ show: true });
+      }
+
+    addAnnotation(title, annotation){
+        this.props.dispatch(addAnnotation(title,annotation,this.props.match.params.bookIndex));
     }
     
     render() {
 
-        console.log(annotations);
+        
 
         const annotations = this.props.annotations.map((annotation, index) => (
          
@@ -25,6 +48,8 @@ export class  BookPage extends React.Component {
             /> 
         
     ));
+
+    console.log(annotations);
         return (
 
     <main className="container__bookPage">
@@ -36,7 +61,7 @@ export class  BookPage extends React.Component {
                      <div className="coverBook"></div>
                      <div className="technicalDetails">
                          <p className="titleBook">{this.props.title}</p>
-                         <p className="authorBook">Lorem, ipsum dolor.</p>
+                         <p className="authorBook">{this.props.author}</p>
                          <p className="dateBook">Year:
                              <span className="dateBook__span">2014</span>
                          </p>
@@ -53,9 +78,32 @@ export class  BookPage extends React.Component {
          <div className="bookPate__annotations">
             <div className="newBook__new">
                    
-                    <AddAnnotation
+                    {/* <AddAnnotation
                            onAdd={text => this.addAnnotation(text)}
-                        />
+                        /> */}
+
+                         <div>
+    
+    <Button bsStyle="primary" bsSize="large" onClick={this.handleShow}>
+      New Annotation
+    </Button>
+
+    <Modal show={this.state.show} onHide={this.handleClose}>
+      <Modal.Header closeButton>
+        <Modal.Title>Modal heading</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+
+        <ContactForm
+        
+        onAdd={(title, annotation) => this.addAnnotation(title, annotation)}/>
+      
+      </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={this.handleClose}>Close</Button>
+      </Modal.Footer>
+    </Modal>
+  </div>
                     
                     </div>
              {annotations}
@@ -70,11 +118,9 @@ export class  BookPage extends React.Component {
 }
 
 const mapStateToProps = (state, props) => {
-    console.log(props.match.params.bookIndex);
-
-    console.log(state.books);
     
-    const book = state.books.find((book) => {
+    
+    const book = state.bookReducer.books.find((book) => {
         return book.title.replace(/ /g, "-") === props.match.params.bookIndex
     })
 
@@ -91,6 +137,7 @@ const mapStateToProps = (state, props) => {
     // );
     return {
         title: book.title,
+        author: book.author,
         annotations: book.annotations
     };
     

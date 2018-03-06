@@ -1,15 +1,30 @@
 import React from 'react';
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 import MySmallModal from './mysmallmodal';
-
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Popover, Tooltip, OverlayTrigger, Tab, Tabs  } from 'react-bootstrap';
 import './home.css';
+import LoginForm from './loginForm'
+import RegisterForm from './registerform'
 
 export default class Home extends React.Component {
-    constructor(props) {
-        super(props);
-
-        
-    }
+    constructor(props, context) {
+        super(props, context);
+    
+        this.handleShow = this.handleShow.bind(this);
+        this.handleClose = this.handleClose.bind(this);
+    
+        this.state = {
+          show: false
+        };
+      }
+    
+      handleClose() {
+        this.setState({ show: false });
+      }
+    
+      handleShow() {
+        this.setState({ show: true });
+      }
 
     render() {
         return (
@@ -32,7 +47,27 @@ export default class Home extends React.Component {
                     <p>password: testthinkful2018</p>
                 </div>
                 
-                <MySmallModal />
+             
+                <Button bsStyle="primary" bsSize="large" onClick={this.handleShow}>
+              Login
+            </Button>
+            <Modal show={this.state.show} onHide={this.handleClose}>
+              
+              <Modal.Body>
+
+                  <Tabs defaultActiveKey={2} id="uncontrolled-tab-example">
+                    <Tab eventKey={1} title="Login">
+                        <LoginForm />
+                    </Tab>
+                    <Tab eventKey={2} title="Register">
+                        <RegisterForm />
+                    </Tab>
+                </Tabs>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button onClick={this.handleClose}>Close</Button>
+              </Modal.Footer>
+            </Modal>
 
                 <div className="button"><Link to="/bookshelf"> Login</Link></div>
  
@@ -41,15 +76,6 @@ export default class Home extends React.Component {
             </div>
 
             </main>
-            
-            // <div className="home-page">
-            //     <h2>Welcome to Trelloish</h2>
-            //     <form onSubmit={e => this.goToBoard(e)}>
-            //         <input type="text" value={this.slugify(this.state.text)}
-            //             onChange={e => this.setText(e.target.value)} />
-            //         <button>Go to board</button>
-            //     </form>
-            // </div>
         );
     }
 }
