@@ -3,14 +3,7 @@ import {reduxForm, Field, SubmissionError, focus} from 'redux-form';
 import Input from './input';
 import {required, nonEmpty, email} from '../validators';
 
-export class EditAnnotationForm extends React.Component {
-
-    componentDidMount() {
-        this.props.initialize({ title: `${this.props.title}`,
-    annotation: `${this.props.annotation}` });
-        // set the value individually
-        // this.props.dispatch(change('myFormName', 'anotherField', 'value'));
-      }
+export class FormNewAnnot extends React.Component {
 
     constructor(props) {
         super(props);
@@ -21,12 +14,12 @@ export class EditAnnotationForm extends React.Component {
         console.log(values.title);
         event.preventDefault();
        
-        // const title = values.title.trim();
-        // const annotation = values.annotation.trim();
+        const title = values.title.trim();
+        const annotation = values.annotation.trim();
 
-        // if (title && annotation && this.props.onAdd) {
-        //     this.props.onAdd(title, annotation);
-        // }
+        if (title && annotation && this.props.onAdd) {
+            this.props.onAdd(title, annotation);
+        }
 
         // return fetch('/api/messages', {
         //     method: 'POST',
@@ -102,7 +95,6 @@ export class EditAnnotationForm extends React.Component {
                     type="text"
                     component={Input}
                     label="Title"
-                    value={this.props.title}
                     validate={[required, nonEmpty]}
                 />
 
@@ -111,7 +103,6 @@ export class EditAnnotationForm extends React.Component {
                     element="textarea"
                     component={Input}
                     label="Annotation"
-                    value={this.props.annotation}
                     validate={[required, nonEmpty]}
                 />
                 <button
@@ -125,7 +116,7 @@ export class EditAnnotationForm extends React.Component {
 }
 
 export default reduxForm({
-    form: 'edit',
+    form: 'contact',
     // onSubmitFail: (errors, dispatch) =>
     //     dispatch(focus('contact', Object.keys(errors)[0]))
-})(EditAnnotationForm);
+})(FormNewAnnot);

@@ -4,7 +4,6 @@ import Home from './home';
 import Bookshelf from './bookshelf';
 import BookPage from './bookpage';
 import AnnotationPage from './annotationpage';
-import MySmallModal from './mysmallmodal';
 import EditAnnotation from './editannotation';
 
 import './app.css';
@@ -19,8 +18,6 @@ export default function App(props) {
                 <h1 className="titleApp"><Link to="/">Book Master</Link></h1>
 
                          <div>
-
-
 
                 </div>
             </header>

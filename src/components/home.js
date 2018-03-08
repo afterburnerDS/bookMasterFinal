@@ -1,12 +1,15 @@
 import React from 'react';
-import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
-import MySmallModal from './mysmallmodal';
+import {BrowserRouter as Router, Route, Link, Redirect} from 'react-router-dom';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Popover, Tooltip, OverlayTrigger, Tab, Tabs  } from 'react-bootstrap';
 import './home.css';
-import LoginForm from './loginForm'
+import {connect} from 'react-redux';
+import LoginForm from './loginform'
 import RegisterForm from './registerform'
 
-export default class Home extends React.Component {
+export  class Home extends React.Component {
+
+  
+
     constructor(props, context) {
         super(props, context);
     
@@ -27,6 +30,10 @@ export default class Home extends React.Component {
       }
 
     render() {
+
+        if (this.props.loggedIn) {
+            return <Redirect to="/bookshelf" />;
+        }
         return (
             <main className="container">
             <div className="content_mainPage">
@@ -54,8 +61,7 @@ export default class Home extends React.Component {
             <Modal show={this.state.show} onHide={this.handleClose}>
               
               <Modal.Body>
-
-                  <Tabs defaultActiveKey={2} id="uncontrolled-tab-example">
+                  <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
                     <Tab eventKey={1} title="Login">
                         <LoginForm />
                     </Tab>
@@ -79,3 +85,10 @@ export default class Home extends React.Component {
         );
     }
 }
+
+
+const mapStateToProps = state => ({
+    loggedIn: state.auth.currentUser !== null
+});
+
+export default connect(mapStateToProps)(Home);

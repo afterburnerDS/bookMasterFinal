@@ -24,6 +24,9 @@ export const bookReducer = (state=initialState, action) => {
     }
     else if (action.type === actions.ADD_ANNOTATION) {
         const {title, annotation, bookIndex} = action;
+        console.log(bookIndex);
+        console.log(annotation);
+        console.log(title);
         let books = state.books;
         books = state.books.map((book, index) => {
             if (book.title.replace(/ /g, "-") !== bookIndex) {

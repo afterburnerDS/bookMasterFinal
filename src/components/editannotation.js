@@ -1,8 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
-import {EditAnnotationForm} from  './editannotationform'
-import {ContactForm} from './contactform'
+import EditAnnotationForm from  './editannotationform'
 
 export  class  EditAnnotation extends React.Component {
 
