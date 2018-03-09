@@ -31,9 +31,9 @@ export  class Home extends React.Component {
 
     render() {
 
-        if (this.props.loggedIn) {
-            return <Redirect to="/bookshelf" />;
-        }
+        // if (this.props.loggedIn) {
+        //     return <Redirect to="/bookshelf" />;
+        // }
         return (
             <main className="container">
             <div className="content_mainPage">
@@ -63,7 +63,9 @@ export  class Home extends React.Component {
               <Modal.Body>
                   <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
                     <Tab eventKey={1} title="Login">
-                        <LoginForm />
+                        <LoginForm 
+                        
+                        />
                     </Tab>
                     <Tab eventKey={2} title="Register">
                         <RegisterForm />

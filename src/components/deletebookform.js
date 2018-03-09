@@ -3,10 +3,21 @@ import {reduxForm, Field, SubmissionError, focus} from 'redux-form';
 import Input from './input';
 import {required, nonEmpty, email} from '../validators';
 import {API_BASE_URL} from '../config';
-import {fetchProtectedData} from '../actions/protected-data';
 
-export class NewBook extends React.Component {
-    
+export class DeleteBookForm extends React.Component {
+
+
+    componentDidMount() {
+        this.props.initialize({ title: `${this.props.title}`,
+        authorBook: `${this.props.authorBook}`,
+        url: `${this.props.cover}`,
+        pages: `${this.props.pages}`,
+        date: `${this.props.date}`,
+        description: `${this.props.description}`
+    });
+        // set the value individually
+        // this.props.dispatch(change('myFormName', 'anotherField', 'value'));
+      }
 
     constructor(props) {
         super(props);
@@ -15,24 +26,32 @@ export class NewBook extends React.Component {
     }
     onSubmit(values) {
         console.log(values.title);
-        // event.preventDefault();
        
         const title = values.title.trim();
         const cover = values.url.trim();
-        const author = values.authorBook.trim(); 
+        const authorBook = values.authorBook.trim(); 
         const pages = values.pages.trim();
         const date = values.date.trim();
         const description = values.description.trim();
 
-        console.log(this.props.authToken);
-        return fetch(`${API_BASE_URL}/books`, {
-           
-            method: 'POST',
-            body: JSON.stringify(values),
+        // if (title && author && this.props.onAdd) {
+        //     this.props.onAdd(title, author);
+        // }
+
+        return fetch(`${API_BASE_URL}/books/${this.props.idBook}`, {
+            method: 'DELETE',
+            body: JSON.stringify({
+                id: this.props.idBook,
+                title: title,
+                cover: cover,
+                authorBook: authorBook,
+                pages: pages,
+                date: date,
+                description: description
+            }),
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${this.props.authToken}`
-
             }
         })
             .then(res => {
@@ -52,14 +71,9 @@ export class NewBook extends React.Component {
                         message: res.statusText
                     });
                 }
-                return ;
+                return;
             })
-            .then(() =>{
-                console.log('Submitted with values', values)
-        
-                this.props.dispatch(fetchProtectedData())
-
-            } )
+            .then(() => console.log('Submitted with values', values))
             .catch(err => {
                 const {reason, message, location} = err;
                 if (reason === 'ValidationError') {
@@ -76,8 +90,6 @@ export class NewBook extends React.Component {
                     })
                 );
             });
-
-            
     }
 
     render() {
@@ -104,56 +116,13 @@ export class NewBook extends React.Component {
                 )}>
                 {successMessage}
                 {errorMessage}
-                <Field
-                    name="title"
-                    type="text"
-                    component={Input}
-                    label="Title"
-                    validate={[required, nonEmpty]}
-                />
-                <Field
-                    name="url"
-                    type="text"
-                    component={Input}
-                    label="Cover (URL)"
-                    validate={[required, nonEmpty]}
-                />
-               
-                <Field
-                    name="authorBook"
-                    type="text"
-                    component={Input}
-                    label="Author"
-                    validate={[required, nonEmpty]}
-                />
-
-                 <Field
-                    name="pages"
-                    type="text"
-                    component={Input}
-                    label="Pages"
-                    validate={[required, nonEmpty]}
-                />
-
-                  <Field
-                    name="date"
-                    type="text"
-                    component={Input}
-                    label="Date of Publication"
-                    validate={[required, nonEmpty]}
-                />
-
-                 <Field
-                    name="description"
-                    element="textarea"
-                    component={Input}
-                    label="Description"
-                    validate={[required, nonEmpty]}
-                />
+               <div>
+                   Are you sure you want to delete this book ?
+                </div>
                 <button
                     type="submit"
                     disabled={this.props.pristine || this.props.submitting}>
-                    Add Book
+                    Delete Book
                 </button>
             </form>
         );
@@ -164,4 +133,4 @@ export default reduxForm({
     form: 'contact',
     // onSubmitFail: (errors, dispatch) =>
     //     dispatch(focus('contact', Object.keys(errors)[0]))
-})(NewBook);
+})(DeleteBookForm);

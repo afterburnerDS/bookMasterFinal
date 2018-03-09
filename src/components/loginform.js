@@ -3,13 +3,20 @@ import {reduxForm, Field, SubmissionError, focus} from 'redux-form';
 import Input from './input';
 import {login} from '../actions/auth';
 import {required, nonEmpty, email} from '../validators';
+import { withRouter } from "react-router-dom";
 
 export class LoginForm extends React.Component {
 
     onSubmit(values) {
-        console.log("heelo");
-        return this.props.dispatch(login(values.email, values.password));
+        console.log("submit login");
+        return this.props.dispatch(login(values.email, values.password)).then(() => {
 
+            console.log("entrei")
+            this.props.history.push("/bookshelf");
+
+            // const { history } = this.props;
+            // history.push("/bookshelf");
+        });
     }
 
     render() {
@@ -52,7 +59,10 @@ export class LoginForm extends React.Component {
     }
 }
 
-export default reduxForm({
-    form: 'contact',
+const form =   reduxForm({
+    form: 'loginform',
     onSubmitFail: (errors, dispatch) => dispatch(focus('login', 'email'))
 })(LoginForm);
+
+
+export default withRouter(form);

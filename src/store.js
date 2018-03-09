@@ -13,9 +13,13 @@ const store = createStore(
         form: formReducer,
         auth: authReducer,
         protectedData: protectedDataReducer,
-        bookReducer
+        bookReducer,
+        
     }),
-    applyMiddleware(thunk)
+
+
+    applyMiddleware(thunk),
+    // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
 // Hydrate the authToken from localStorage if it exist
@@ -23,7 +27,7 @@ const authToken = loadAuthToken();
 if (authToken) {
     const token = authToken;
     store.dispatch(setAuthToken(token));
-    store.dispatch(refreshAuthToken());
+    // store.dispatch(refreshAuthToken());
 }
 
 export default store;

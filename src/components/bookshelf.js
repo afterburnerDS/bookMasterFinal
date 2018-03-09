@@ -10,10 +10,19 @@ import {reduxForm, Field, SubmissionError, focus} from 'redux-form';
 import Input from './input';
 import NewBook from './newbook'
  import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Popover, Tooltip, OverlayTrigger  } from 'react-bootstrap';
+ import {fetchProtectedData} from '../actions/protected-data';
 
 
 export class BookShelf extends React.Component  {
 
+  componentDidMount() {
+    this.props.dispatch(fetchProtectedData());
+  }
+
+  // componentDidUpdate() {
+  //   this.props.dispatch(fetchProtectedData());
+  // }
+  
     constructor(props, context) {
         super(props, context);
     
@@ -24,6 +33,8 @@ export class BookShelf extends React.Component  {
           show: false
         };
       }
+
+      
     
       handleClose() {
         this.setState({ show: false });
@@ -38,16 +49,18 @@ export class BookShelf extends React.Component  {
     }
 
     render() {
-
-        
-        const books = this.props.books.map((book, index) => (
+      let books = [];
+        if(this.props.books){
+          books = this.props.books.map((book, index) => (
          
-                <Book 
-                    index={index}
-                    {...book}
-                   
-                /> 
-        ));
+            <Book 
+                index={index}
+                {...book}
+               
+            /> 
+      ));
+        }
+       
 
         return (
             <main className="container">
@@ -70,7 +83,9 @@ export class BookShelf extends React.Component  {
 
                 <NewBook
                 
-                onAdd={(title, author) => this.addBook(title, author)}/>
+                onAdd={(title, author) => this.addBook(title, author)}
+                
+                authToken= {this.props.authToken}/>
               
               </Modal.Body>
               <Modal.Footer>
@@ -97,11 +112,22 @@ BookShelf.defaultProps = {
     title: 'BookShelf'
 };
 
+
+// const mapStateToProps = (state, props) => {
+//   const {currentUser} = state.auth;
+//   return {
+     
+//       books: state.protectedData.data
+//   };
+// };
+
 const mapStateToProps = (state, props) => {
 
+  console.log(state.protectedData.data);
     
    return{
-            books: state.bookReducer.books
+            books: state.protectedData.data,
+            authToken: state.auth.authToken
             
         }
    ;

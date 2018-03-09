@@ -16,10 +16,6 @@ export default function App(props) {
             <div className="app">
              <header className="header">
                 <h1 className="titleApp"><Link to="/">Book Master</Link></h1>
-
-                         <div>
-
-                </div>
             </header>
                 {/* <header>
                     <h1><Link to="/">Trelloish</Link></h1>

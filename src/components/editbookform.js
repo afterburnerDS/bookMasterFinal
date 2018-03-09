@@ -2,15 +2,22 @@ import React from 'react';
 import {reduxForm, Field, SubmissionError, focus} from 'redux-form';
 import Input from './input';
 import {required, nonEmpty, email} from '../validators';
+import {API_BASE_URL} from '../config';
+import {fetchProtectedData} from '../actions/protected-data';
 
-export class NewBook extends React.Component {
+export class EditBookForm extends React.Component {
 
 
     componentDidMount() {
         this.props.initialize({ title: `${this.props.title}`,
-    author: `${this.props.author}` });
+        authorBook: `${this.props.authorBook}`,
+        url: `${this.props.cover}`,
+        pages: `${this.props.pages}`,
+        date: `${this.props.date}`,
+        description: `${this.props.description}`
+    });
         // set the value individually
-        // this.props.dispatch(change('myFormName', 'anotherField', 'value'));
+     
       }
 
     constructor(props) {
@@ -20,62 +27,78 @@ export class NewBook extends React.Component {
     }
     onSubmit(values) {
         console.log(values.title);
-        event.preventDefault();
        
         const title = values.title.trim();
-        const cover = values.cover.trim();
-        const author = values.author.trim(); 
+        const cover = values.url.trim();
+        const authorBook = values.authorBook.trim(); 
         const pages = values.pages.trim();
         const date = values.date.trim();
         const description = values.description.trim();
 
-        if (title && author && this.props.onAdd) {
-            this.props.onAdd(title, author);
-        }
+        // if (title && author && this.props.onAdd) {
+        //     this.props.onAdd(title, author);
+        // }
 
-        // return fetch('/api/messages', {
-        //     method: 'POST',
-        //     body: JSON.stringify(values),
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     }
-        // })
-        //     .then(res => {
-        //         if (!res.ok) {
-        //             if (
-        //                 res.headers.has('content-type') &&
-        //                 res.headers
-        //                     .get('content-type')
-        //                     .startsWith('application/json')
-        //             ) {
-        //                 // It's a nice JSON error returned by us, so decode it
-        //                 return res.json().then(err => Promise.reject(err));
-        //             }
-        //             // It's a less informative error returned by express
-        //             return Promise.reject({
-        //                 code: res.status,
-        //                 message: res.statusText
-        //             });
-        //         }
-        //         return;
-        //     })
-        //     .then(() => console.log('Submitted with values', values))
-        //     .catch(err => {
-        //         const {reason, message, location} = err;
-        //         if (reason === 'ValidationError') {
-        //             // Convert ValidationErrors into SubmissionErrors for Redux Form
-        //             return Promise.reject(
-        //                 new SubmissionError({
-        //                     [location]: message
-        //                 })
-        //             );
-        //         }
-        //         return Promise.reject(
-        //             new SubmissionError({
-        //                 _error: 'Error submitting message'
-        //             })
-        //         );
-        //     });
+        
+
+        return fetch(`${API_BASE_URL}/books/${this.props.idBook}`, {
+            method: 'PUT',
+            body: JSON.stringify({
+                id: this.props.idBook,
+                title: title,
+                cover: cover,
+                authorBook: authorBook,
+                pages: pages,
+                date: date,
+                description: description
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${this.props.authToken}`
+            }
+        })
+            .then(res => {
+                if (!res.ok) {
+                    if (
+                        res.headers.has('content-type') &&
+                        res.headers
+                            .get('content-type')
+                            .startsWith('application/json')
+                    ) {
+                        // It's a nice JSON error returned by us, so decode it
+                        return res.json().then(err => Promise.reject(err));
+                    }
+                    // It's a less informative error returned by express
+                    return Promise.reject({
+                        code: res.status,
+                        message: res.statusText
+                    });
+                }
+                return;
+            })
+            .then(() =>{
+                console.log('Submitted with values', values);
+                this.props.dispatch(fetchProtectedData())
+
+            } )
+            .catch(err => {
+                const {reason, message, location} = err;
+                if (reason === 'ValidationError') {
+                    // Convert ValidationErrors into SubmissionErrors for Redux Form
+                    return Promise.reject(
+                        new SubmissionError({
+                            [location]: message
+                        })
+                    );
+                }
+                return Promise.reject(
+                    new SubmissionError({
+                        _error: 'Error submitting message'
+                    })
+                );
+            });
+
+            this.props.dispatch(fetchProtectedData());
     }
 
     render() {
@@ -111,15 +134,16 @@ export class NewBook extends React.Component {
                     validate={[required, nonEmpty]}
                 />
                 <Field
-                    name="cover"
+                    name="url"
                     type="text"
                     component={Input}
+                    value={this.props.cover}
                     label="Cover (URL)"
                     validate={[required, nonEmpty]}
                 />
                
                 <Field
-                    name="author"
+                    name="authorBook"
                     type="text"
                     component={Input}
                     value={this.props.author}
@@ -131,6 +155,7 @@ export class NewBook extends React.Component {
                     name="pages"
                     type="text"
                     component={Input}
+                    value={this.props.pages}
                     label="Pages"
                     validate={[required, nonEmpty]}
                 />
@@ -139,6 +164,7 @@ export class NewBook extends React.Component {
                     name="date"
                     type="text"
                     component={Input}
+                    value={this.props.date}
                     label="Date of Publication"
                     validate={[required, nonEmpty]}
                 />
@@ -147,6 +173,7 @@ export class NewBook extends React.Component {
                     name="description"
                     element="textarea"
                     component={Input}
+                    value={this.props.description}
                     label="Description"
                     validate={[required, nonEmpty]}
                 />
@@ -164,4 +191,4 @@ export default reduxForm({
     form: 'contact',
     // onSubmitFail: (errors, dispatch) =>
     //     dispatch(focus('contact', Object.keys(errors)[0]))
-})(NewBook);
+})(EditBookForm);

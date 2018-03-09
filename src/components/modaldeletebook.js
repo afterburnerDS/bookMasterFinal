@@ -1,8 +1,8 @@
 import React from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Popover, Tooltip, OverlayTrigger  } from 'react-bootstrap';
-import EditBookForm from './editbookform';
+import DeleteBookForm from './deletebookform';
 
-export default class ModalEditBook extends React.Component {
+export default class ModalDeleteBook extends React.Component {
     constructor(props, context) {
         super(props, context);
     
@@ -28,7 +28,7 @@ export default class ModalEditBook extends React.Component {
         return (
             <div>
               <Button bsStyle="primary" bsSize="large" onClick={this.handleShow}>
-      Edit Book
+      Delete Book
     </Button>
 
     <Modal show={this.state.show} onHide={this.handleClose}>
@@ -37,13 +37,7 @@ export default class ModalEditBook extends React.Component {
       </Modal.Header>
       <Modal.Body>
 
-        <EditBookForm
-          title = {this.props.title}
-          authorBook = {this.props.authorBook}
-          cover = {this.props.cover}
-          date = {this.props.date}       
-          pages = {this.props.pages}
-          description = {this.props.description}
+        <DeleteBookForm
           idBook = {this.props.idBook}
           authToken= {this.props.authToken}    
           />

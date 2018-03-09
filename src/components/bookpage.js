@@ -10,8 +10,18 @@ import  AnnotationForm  from './annotationform';
 import NewBook from './newbook';
 import ModalEditBook from './modaleditbook';
 import ModalNewAnnot from './modalnewannot';
+import ModalDeleteBook from './modaldeletebook';
+import {fetchProtectedData} from '../actions/protected-data';
 
 export class BookPage extends React.Component {
+
+    componentDidUpdate() {
+        this.props.dispatch(fetchProtectedData());
+      }
+
+    // componentWillUpdate() {
+    //     this.props.dispatch(fetchProtectedData());
+    //   }
 
     constructor(props, context) {
         super(props, context);
@@ -43,29 +53,42 @@ export class BookPage extends React.Component {
             <ModalEditBook 
             
             title = {this.props.title}
-            author = {this.props.author}/>
-     <div>
-  </div>
-     
+            authorBook = {this.props.authorBook}
+            cover = {this.props.cover}
+            date = {this.props.date}       
+            pages = {this.props.pages}
+            description = {this.props.description}  
+            idBook = {this.props.idBook} 
+            authToken= {this.props.authToken}      
+        />
+     </div>
+     <div className="delBtn">
+            <ModalDeleteBook 
+            
+                idBook = {this.props.idBook} 
+          
+            />
      </div>
      
      <div className="bookPage">
          <div className="bookPage__technical">
              <div className="basicDetails">
-                     <div className="coverBook"></div>
+                     <div className="coverBook">
+                        {/* <img src={this.props.cover} /> */}
+                     </div>
                      <div className="technicalDetails">
                          <p className="titleBook">{this.props.title}</p>
-                         <p className="authorBook">{this.props.author}</p>
+                         <p className="authorBook">{this.props.authorBook}</p>
                          <p className="dateBook">Year:
-                             <span className="dateBook__span">2014</span>
+                             <span className="dateBook__span">{this.props.date}</span>
                          </p>
                          <p className="pagesBook">Pages:
-                             <span className="pagesBook__span">340</span>
+                             <span className="pagesBook__span">{this.props.pages}</span>
                          </p>           
                      </div>  
              </div>  
              
-             <p className="resumeBook">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Placeat, voluptatibus?</p>
+             <p className="resumeBook">{this.props.description}</p>
          
 
          </div>
@@ -85,8 +108,7 @@ export class BookPage extends React.Component {
          </div>
      </div>
  </main>
-  
-         
+
      );
     }
 
@@ -95,7 +117,7 @@ export class BookPage extends React.Component {
 const mapStateToProps = (state, props) => {
     
     
-    const book = state.bookReducer.books.find((book) => {
+    const book = state.protectedData.data.find((book) => {
         return book.title.replace(/ /g, "-") === props.match.params.bookIndex
     })
 
@@ -112,8 +134,14 @@ const mapStateToProps = (state, props) => {
     // );
     return {
         title: book.title,
-        author: book.author,
-        annotations: book.annotations
+        authorBook: book.authorBook,
+        cover: book.url,
+        date: book.date,
+        pages: book.pages,
+        description: book.description,
+        annotations: book.annotations,
+        idBook: book._id,
+        authToken: state.auth.authToken
     };
     
 };
