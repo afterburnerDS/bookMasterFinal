@@ -2,6 +2,9 @@ import React from 'react';
 import {reduxForm, Field, SubmissionError, focus} from 'redux-form';
 import Input from './input';
 import {required, nonEmpty, email} from '../validators';
+import {API_BASE_URL} from '../config';
+import {fetchProtectedData} from '../actions/protected-data';
+import { withRouter } from "react-router-dom";
 
 export class EditAnnotationForm extends React.Component {
 
@@ -17,60 +20,89 @@ export class EditAnnotationForm extends React.Component {
 
         this.onSubmit = this.onSubmit.bind(this);
     }
+
+   
     onSubmit(values) {
-        console.log(values.title);
-        event.preventDefault();
-       
-        // const title = values.title.trim();
-        // const annotation = values.annotation.trim();
+        
+       const title = values.title.trim();
+        const annotation = values.annotation.trim();
+        const idAnnot = this.props.idAnnot;
 
-        // if (title && annotation && this.props.onAdd) {
-        //     this.props.onAdd(title, annotation);
-        // }
+        const newAnnotations =  this.props.annotations.map(annota => {
 
-        // return fetch('/api/messages', {
-        //     method: 'POST',
-        //     body: JSON.stringify(values),
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     }
-        // })
-        //     .then(res => {
-        //         if (!res.ok) {
-        //             if (
-        //                 res.headers.has('content-type') &&
-        //                 res.headers
-        //                     .get('content-type')
-        //                     .startsWith('application/json')
-        //             ) {
-        //                 // It's a nice JSON error returned by us, so decode it
-        //                 return res.json().then(err => Promise.reject(err));
-        //             }
-        //             // It's a less informative error returned by express
-        //             return Promise.reject({
-        //                 code: res.status,
-        //                 message: res.statusText
-        //             });
-        //         }
-        //         return;
-        //     })
-        //     .then(() => console.log('Submitted with values', values))
-        //     .catch(err => {
-        //         const {reason, message, location} = err;
-        //         if (reason === 'ValidationError') {
-        //             // Convert ValidationErrors into SubmissionErrors for Redux Form
-        //             return Promise.reject(
-        //                 new SubmissionError({
-        //                     [location]: message
-        //                 })
-        //             );
-        //         }
-        //         return Promise.reject(
-        //             new SubmissionError({
-        //                 _error: 'Error submitting message'
-        //             })
-        //         );
-        //     });
+            if(annota.idAnnot === this.props.idAnnot){
+
+                return {
+                    idAnnot,
+                     title,
+                     annotation
+                }
+            }else{
+                return annota;
+            }
+        })
+
+        console.log(newAnnotations);
+
+        return fetch(`${API_BASE_URL}/books/${this.props.idEditBook}`, {
+            method: 'PUT',
+            body: JSON.stringify({
+                id: this.props.idEditBook,
+                annotations: newAnnotations
+            }
+
+
+            ),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${this.props.authToken}`
+            }
+        })
+            .then(res => {
+                if (!res.ok) {
+                    if (
+                        res.headers.has('content-type') &&
+                        res.headers
+                            .get('content-type')
+                            .startsWith('application/json')
+                    ) {
+                        // It's a nice JSON error returned by us, so decode it
+                        return res.json().then(err => Promise.reject(err));
+                    }
+                    // It's a less informative error returned by express
+                    return Promise.reject({
+                        code: res.status,
+                        message: res.statusText
+                    });
+                }
+                return;
+            })
+            .then(() => { 
+                console.log('Submitted with values', values);
+                this.props.dispatch(fetchProtectedData());
+                
+
+                this.props.history.push(`/annotation/${this.props.idBook}/${this.props.idAnnot}`);
+            })
+            .catch(err => {
+                const {reason, message, location} = err;
+                if (reason === 'ValidationError') {
+                    // Convert ValidationErrors into SubmissionErrors for Redux Form
+                    return Promise.reject(
+                        new SubmissionError({
+                            [location]: message
+                        })
+                    );
+                }
+                return Promise.reject(
+                    new SubmissionError({
+                        _error: 'Error submitting message'
+                    })
+                );
+            });
+
+        
+
     }
 
     render() {
@@ -124,8 +156,11 @@ export class EditAnnotationForm extends React.Component {
     }
 }
 
-export default reduxForm({
-    form: 'edit',
-    // onSubmitFail: (errors, dispatch) =>
-    //     dispatch(focus('contact', Object.keys(errors)[0]))
+const form  = reduxForm({
+    form: 'editannotform',
+    onSubmitFail: (errors, dispatch) =>
+        dispatch(focus('editannotform', Object.keys(errors)[0]))
 })(EditAnnotationForm);
+
+
+export default withRouter(form);

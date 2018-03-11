@@ -38,7 +38,7 @@ export default class ModalDeleteBook extends React.Component {
       <Modal.Body>
 
         <DeleteBookForm
-          idBook = {this.props.idBook}
+          idEditBook = {this.props.idEditBook}
           authToken= {this.props.authToken}    
           />
       

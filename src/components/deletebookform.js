@@ -3,6 +3,7 @@ import {reduxForm, Field, SubmissionError, focus} from 'redux-form';
 import Input from './input';
 import {required, nonEmpty, email} from '../validators';
 import {API_BASE_URL} from '../config';
+import { withRouter } from "react-router-dom";
 
 export class DeleteBookForm extends React.Component {
 
@@ -25,29 +26,19 @@ export class DeleteBookForm extends React.Component {
         this.onSubmit = this.onSubmit.bind(this);
     }
     onSubmit(values) {
-        console.log(values.title);
-       
-        const title = values.title.trim();
-        const cover = values.url.trim();
-        const authorBook = values.authorBook.trim(); 
-        const pages = values.pages.trim();
-        const date = values.date.trim();
-        const description = values.description.trim();
 
-        // if (title && author && this.props.onAdd) {
-        //     this.props.onAdd(title, author);
-        // }
+        console.log(this.props.authToken);
 
-        return fetch(`${API_BASE_URL}/books/${this.props.idBook}`, {
+        return fetch(`${API_BASE_URL}/books/${this.props.idEditBook}`, {
             method: 'DELETE',
             body: JSON.stringify({
-                id: this.props.idBook,
-                title: title,
-                cover: cover,
-                authorBook: authorBook,
-                pages: pages,
-                date: date,
-                description: description
+                id: this.props.idEditBook,
+                title: this.props.title,
+                cover: this.props.cover,
+                authorBook: this.props.authorBook,
+                pages: this.props.pages,
+                date: this.props.date,
+                description: this.props.description
             }),
             headers: {
                 'Content-Type': 'application/json',
@@ -73,7 +64,12 @@ export class DeleteBookForm extends React.Component {
                 }
                 return;
             })
-            .then(() => console.log('Submitted with values', values))
+            .then(() => {
+                
+                console.log('Submitted with values', values);
+                this.props.history.push(`/bookshelf`);
+
+            })
             .catch(err => {
                 const {reason, message, location} = err;
                 if (reason === 'ValidationError') {
@@ -120,8 +116,7 @@ export class DeleteBookForm extends React.Component {
                    Are you sure you want to delete this book ?
                 </div>
                 <button
-                    type="submit"
-                    disabled={this.props.pristine || this.props.submitting}>
+                    type="submit">
                     Delete Book
                 </button>
             </form>
@@ -129,8 +124,11 @@ export class DeleteBookForm extends React.Component {
     }
 }
 
-export default reduxForm({
+const form = reduxForm({
     form: 'contact',
     // onSubmitFail: (errors, dispatch) =>
     //     dispatch(focus('contact', Object.keys(errors)[0]))
 })(DeleteBookForm);
+
+
+export default withRouter(form);

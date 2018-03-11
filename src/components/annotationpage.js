@@ -4,23 +4,13 @@ import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 
 export  class  AnnotaionPage extends React.Component {
 
-    slugify(title) {
-        return title
-            .toString()
-            .toLowerCase()
-            .replace(/[\s\W-]+/g, '-');
-    }
-    
     render() {
-
-        const slugifyTtitleAnnot = this.slugify(this.props.title);
-        const slugifyTtitleBook = this.slugify(this.props.bookIndex);
 
         return (
             <main className="container">
-                <div className="backBtn"> <Link to={`/bookpage/${this.props.bookIndex}`}>back </Link></div>
+                <div className="backBtn"> <Link to={`/bookpage/${this.props.idBook}`}>back </Link></div>
 
-                <div className="editBtn"> <Link to={`/editannotation/${slugifyTtitleBook}/${slugifyTtitleAnnot}`}>edit </Link></div>
+                <div className="editBtn"> <Link to={`/editannotation/${this.props.idBook}/${this.props.idAnnot}`}>edit </Link></div>
 
                     <div className="title">
                         {this.props.title}
@@ -37,21 +27,20 @@ export  class  AnnotaionPage extends React.Component {
 const mapStateToProps = (state, props) => {
     console.log(props.match.params.bookIndex);
 
-    console.log(state.books);
-
-
-    
-    const book = state.bookReducer.books.find((book) => {
-        return book.title.replace(/ /g, "-") === props.match.params.bookIndex
+    const book = state.protectedData.data.find((book) => {
+        return book.idBook === props.match.params.bookIndex
     })
 
     console.log(book);
+    console.log(props.match.params.annotationId);
 
     const annotation = book.annotations.find((annot) => {
-        return annot.title.replace(/ /g, "-") === props.match.params.annotationId
+        return annot.idAnnot === props.match.params.annotationId
     })
 
     return {
+        idBook: book.idBook,
+        idAnnot: annotation.idAnnot,
         title: annotation.title,
         annotation: annotation.annotation,
         bookIndex: props.match.params.bookIndex

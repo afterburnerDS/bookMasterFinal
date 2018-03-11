@@ -19,11 +19,17 @@ export  class  EditAnnotation extends React.Component {
 
         return (
             <main className="container">
-                <div className="backBtn"> <Link to={`/bookpage/${this.props.bookIndex}`}>back </Link></div>
+                <div className="backBtn"> <Link to={`/bookpage/${this.props.idBook}`}>back </Link></div>
 
-                <EditAnnotationForm 
+                <EditAnnotationForm
+                 
                     title={this.props.title}
                     annotation={this.props.annotation}
+                    idBook = {this.props.idBook}
+                    idEditBook = {this.props.idEditBook}
+                    idAnnot = {this.props.idAnnot}
+                    authToken = {this.props.authToken}
+                    annotations = {this.props.annotations}
                 />
 
                 </main>
@@ -35,24 +41,30 @@ export  class  EditAnnotation extends React.Component {
 const mapStateToProps = (state, props) => {
     console.log(props.match.params.bookIndex);
 
-    console.log(state.books);
+    
 
 
     
-    const book = state.bookReducer.books.find((book) => {
-        return book.title.replace(/ /g, "-") === props.match.params.bookIndex
+    const book = state.protectedData.data.find((book) => {
+        return book.idBook === props.match.params.bookIndex
     })
 
     console.log(book);
+    console.log(props.match.params.annotationId);
 
     const annotation = book.annotations.find((annot) => {
-        return annot.title.replace(/ /g, "-") === props.match.params.annotationId
+        return annot.idAnnot === props.match.params.annotationId
     })
 
     return {
+        annotations: book.annotations,
+        idAnnot: annotation.idAnnot,
         title: annotation.title,
         annotation: annotation.annotation,
-        bookIndex: props.match.params.bookIndex
+        bookIndex: props.match.params.bookIndex,
+        idBook: book.idBook,
+        idEditBook: book._id,
+        authToken: state.auth.authToken 
         
     };
     

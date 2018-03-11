@@ -4,9 +4,11 @@ import Input from './input';
 import {required, nonEmpty, email} from '../validators';
 import {API_BASE_URL} from '../config';
 import {fetchProtectedData} from '../actions/protected-data';
+import { withRouter } from "react-router-dom";
 
 export class EditBookForm extends React.Component {
-
+    
+  
 
     componentDidMount() {
         this.props.initialize({ title: `${this.props.title}`,
@@ -20,11 +22,14 @@ export class EditBookForm extends React.Component {
      
       }
 
+
     constructor(props) {
         super(props);
 
         this.onSubmit = this.onSubmit.bind(this);
     }
+
+    
     onSubmit(values) {
         console.log(values.title);
        
@@ -41,10 +46,10 @@ export class EditBookForm extends React.Component {
 
         
 
-        return fetch(`${API_BASE_URL}/books/${this.props.idBook}`, {
+        return fetch(`${API_BASE_URL}/books/${this.props.idEditBook}`, {
             method: 'PUT',
             body: JSON.stringify({
-                id: this.props.idBook,
+                id: this.props.idEditBook,
                 title: title,
                 cover: cover,
                 authorBook: authorBook,
@@ -77,8 +82,12 @@ export class EditBookForm extends React.Component {
                 return;
             })
             .then(() =>{
-                console.log('Submitted with values', values);
+                console.log('Submittsed with values', values);
                 this.props.dispatch(fetchProtectedData())
+
+                
+
+                this.props.history.push(`/bookpage/${this.props.idBook}`);
 
             } )
             .catch(err => {
@@ -96,9 +105,7 @@ export class EditBookForm extends React.Component {
                         _error: 'Error submitting message'
                     })
                 );
-            });
-
-            this.props.dispatch(fetchProtectedData());
+            }); 
     }
 
     render() {
@@ -187,8 +194,11 @@ export class EditBookForm extends React.Component {
     }
 }
 
-export default reduxForm({
-    form: 'contact',
-    // onSubmitFail: (errors, dispatch) =>
-    //     dispatch(focus('contact', Object.keys(errors)[0]))
+const form =  reduxForm({
+    form: 'editform',
+    onSubmitFail: (errors, dispatch) =>
+        dispatch(focus('editform', Object.keys(errors)[0]))
 })(EditBookForm);
+
+
+export default withRouter(form);

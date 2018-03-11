@@ -13,13 +13,13 @@ export const addAnnotation = (title, annotation,bookIndex) => ({
     bookIndex
 });
 
-// export const fetchBooks = () => dispatch => {
+// export const fetchProtectedData = () => dispatch => {
 //     fetch(`${API_BASE_URL}/books`).then(res => {
 //         if (!res.ok) {
 //             return Promise.reject(res.statusText);
 //         }
 //         return res.json();
 //     }).then(board => {
-//         dispatch(fetchBooksSuccess(board));
+//         dispatch(fetchProtectedDataSuccess(board));
 //     });
 // };

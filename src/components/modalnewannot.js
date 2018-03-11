@@ -47,7 +47,14 @@ export  class ModalNewAnnot extends React.Component {
 
         <FormNewAnnot
         
-        onAdd={(title, annotation) => this.addAnnotation(title, annotation)}/>
+        // onAdd={(title, annotation) => this.addAnnotation(title, annotation)}
+
+        annotations = {this.props.annotations}
+        idEditBook = {this.props.idEditBook}
+        authToken= {this.props.authToken} 
+        
+        
+        />
       
       </Modal.Body>
       <Modal.Footer>

@@ -11,7 +11,7 @@ export class LoginForm extends React.Component {
         console.log("submit login");
         return this.props.dispatch(login(values.email, values.password)).then(() => {
 
-            console.log("entrei")
+            
             this.props.history.push("/bookshelf");
 
             // const { history } = this.props;

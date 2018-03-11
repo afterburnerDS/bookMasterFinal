@@ -13,26 +13,48 @@ export class NewBook extends React.Component {
 
         this.onSubmit = this.onSubmit.bind(this);
     }
+
+     guid() {
+        function s4() {
+          return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1);
+        }
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+      }
+
     onSubmit(values) {
         console.log(values.title);
         // event.preventDefault();
-       
-        const title = values.title.trim();
+
+        
+
+          const idBook = this.guid();
+       const title = values.title.trim();
         const cover = values.url.trim();
-        const author = values.authorBook.trim(); 
+        const authorBook = values.authorBook.trim(); 
         const pages = values.pages.trim();
         const date = values.date.trim();
         const description = values.description.trim();
 
+        console.log(idBook);
         console.log(this.props.authToken);
         return fetch(`${API_BASE_URL}/books`, {
            
             method: 'POST',
-            body: JSON.stringify(values),
+            body: JSON.stringify({
+                
+                idBook: idBook,
+                title: title,
+                authorBook: authorBook,
+                cover: cover,
+                pages: pages,
+                date: date,
+                description: description
+            }),
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${this.props.authToken}`
-
             }
         })
             .then(res => {
@@ -58,6 +80,8 @@ export class NewBook extends React.Component {
                 console.log('Submitted with values', values)
         
                 this.props.dispatch(fetchProtectedData())
+
+
 
             } )
             .catch(err => {
@@ -161,7 +185,7 @@ export class NewBook extends React.Component {
 }
 
 export default reduxForm({
-    form: 'contact',
+    form: 'newbook',
     // onSubmitFail: (errors, dispatch) =>
     //     dispatch(focus('contact', Object.keys(errors)[0]))
 })(NewBook);

@@ -45,6 +45,7 @@ export default class ModalEditBook extends React.Component {
           pages = {this.props.pages}
           description = {this.props.description}
           idBook = {this.props.idBook}
+          idEditBook = {this.props.idEditBook}
           authToken= {this.props.authToken}    
           />
       

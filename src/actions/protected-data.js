@@ -22,9 +22,9 @@ export const fetchProtectedData = () => (dispatch, getState) => {
             // Provide our auth token as credentials
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${authToken}`,
-            'Cache-Control': 'no-cache',
-            'Pragma': 'no-cache',
-            'Expires' : 0      
+            // 'Cache-Control': 'no-cache',
+            // 'Pragma': 'no-cache',
+            // 'Expires' : 0      
     }
     })
             .then(res => {

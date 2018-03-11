@@ -2,11 +2,9 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 import {addAnnotation} from '../actions';
-import AddAnnotation from './add-annotation';
 import Annotation from './annotation';
 import Input from './input';
- import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Popover, Tooltip, OverlayTrigger  } from 'react-bootstrap';
-import  AnnotationForm  from './annotationform';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Popover, Tooltip, OverlayTrigger  } from 'react-bootstrap';
 import NewBook from './newbook';
 import ModalEditBook from './modaleditbook';
 import ModalNewAnnot from './modalnewannot';
@@ -15,9 +13,9 @@ import {fetchProtectedData} from '../actions/protected-data';
 
 export class BookPage extends React.Component {
 
-    componentDidUpdate() {
-        this.props.dispatch(fetchProtectedData());
-      }
+    // componentDidUpdate() {
+    //     // this.props.dispatch(fetchProtectedData());
+    //   }
 
     // componentWillUpdate() {
     //     this.props.dispatch(fetchProtectedData());
@@ -38,7 +36,7 @@ export class BookPage extends React.Component {
          
             <Annotation 
                 index={index}
-                bookIndex = {this.props.match.params.bookIndex}
+                idBook = {this.props.idBook}
                 {...annotation}
             /> 
     ));
@@ -57,15 +55,23 @@ export class BookPage extends React.Component {
             cover = {this.props.cover}
             date = {this.props.date}       
             pages = {this.props.pages}
-            description = {this.props.description}  
-            idBook = {this.props.idBook} 
+            description = {this.props.description}
+            idBook = {this.props.idBook}  
+            idEditBook = {this.props.idEditBook} 
             authToken= {this.props.authToken}      
         />
      </div>
      <div className="delBtn">
             <ModalDeleteBook 
             
-                idBook = {this.props.idBook} 
+                idEditBook = {this.props.idEditBook}
+                title = {this.props.title}
+            authorBook = {this.props.authorBook}
+            cover = {this.props.cover}
+            date = {this.props.date}       
+            pages = {this.props.pages}
+            description = {this.props.description}  
+            authToken= {this.props.authToken}    
           
             />
      </div>
@@ -100,8 +106,9 @@ export class BookPage extends React.Component {
                         /> */}
 
                         <ModalNewAnnot 
-                        
-                        bookIndex = {this.props.match.params.bookIndex}/>
+                        annotations = {this.props.annotations}
+                        idEditBook = {this.props.idEditBook}
+                        authToken= {this.props.authToken}   />
                     
                     </div>
              {annotations}
@@ -116,9 +123,9 @@ export class BookPage extends React.Component {
 
 const mapStateToProps = (state, props) => {
     
-    
+    console.log(state.protectedData.data);
     const book = state.protectedData.data.find((book) => {
-        return book.title.replace(/ /g, "-") === props.match.params.bookIndex
+        return book.idBook === props.match.params.bookIndex
     })
 
     
@@ -140,7 +147,8 @@ const mapStateToProps = (state, props) => {
         pages: book.pages,
         description: book.description,
         annotations: book.annotations,
-        idBook: book._id,
+        idBook: book.idBook,
+        idEditBook: book._id,
         authToken: state.auth.authToken
     };
     
