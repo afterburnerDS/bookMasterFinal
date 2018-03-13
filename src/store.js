@@ -4,16 +4,15 @@ import {loadAuthToken} from './local-storage';
 import thunk from 'redux-thunk';
 import authReducer from './reducers/auth';
 import protectedDataReducer from './reducers/protected-data';
-import {bookReducer} from './reducers';
+
 import {setAuthToken, refreshAuthToken} from './actions/auth';
-console.log(bookReducer);
+
 
 const store = createStore(
     combineReducers({
         form: formReducer,
         auth: authReducer,
         protectedData: protectedDataReducer,
-        bookReducer,
         
     }),
 

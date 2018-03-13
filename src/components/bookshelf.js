@@ -16,30 +16,17 @@ import NewBook from './newbook'
 
 export class BookShelf extends React.Component  {
 
-  // componentDidMount() {
-  //   this.props.dispatch(fetchProtectedData());
-  // }
-
-  // componentDidUpdate() {
-  //   this.props.dispatch(fetchProtectedData());
-  // }
-  
     constructor(props, context) {
         super(props, context);
     
       this.props.dispatch(fetchProtectedData());
     
-        // this.state = {
-        //   show: false
-        // };
       }
-
-      
 
     render() {
       let books = [];
         if(this.props.books){
-          console.log(books);
+       
           books = this.props.books.map((book, index) => (
          
             <Book 
@@ -50,8 +37,7 @@ export class BookShelf extends React.Component  {
             /> 
       ));
         }
-       
-
+      
         return (
             <main className="container">
 
@@ -70,8 +56,12 @@ export class BookShelf extends React.Component  {
                 <div className="bookShelf">
                     <p className="bookShelf__title">BookShelf</p>
                     <div className="bookShelf__container">
+                      
+                        
+                        
                         {books}
-                     </div>
+                      
+                  </div>
                 </div>
             </main>
     );

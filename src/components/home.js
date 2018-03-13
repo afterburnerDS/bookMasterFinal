@@ -1,10 +1,8 @@
 import React from 'react';
 import {BrowserRouter as Router, Route, Link, Redirect} from 'react-router-dom';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Popover, Tooltip, OverlayTrigger, Tab, Tabs  } from 'react-bootstrap';
 import './home.css';
 import {connect} from 'react-redux';
-import LoginForm from './loginform'
-import RegisterForm from './registerform'
+import ModalHome from './modalhome';
 
 export  class Home extends React.Component {
 
@@ -13,21 +11,21 @@ export  class Home extends React.Component {
     constructor(props, context) {
         super(props, context);
     
-        this.handleShow = this.handleShow.bind(this);
-        this.handleClose = this.handleClose.bind(this);
+        // this.handleShow = this.handleShow.bind(this);
+        // this.handleClose = this.handleClose.bind(this);
     
-        this.state = {
-          show: false
-        };
+        // this.state = {
+        //   show: false
+        // };
       }
     
-      handleClose() {
-        this.setState({ show: false });
-      }
+    //   handleClose() {
+    //     this.setState({ show: false });
+    //   }
     
-      handleShow() {
-        this.setState({ show: true });
-      }
+    //   handleShow() {
+    //     this.setState({ show: true });
+    //   }
 
     render() {
 
@@ -55,7 +53,7 @@ export  class Home extends React.Component {
                 </div>
                 
              
-                <Button bsStyle="primary" bsSize="large" onClick={this.handleShow}>
+                {/* <Button bsStyle="primary" bsSize="large" onClick={this.handleShow}>
               Login
             </Button>
             <Modal show={this.state.show} onHide={this.handleClose}>
@@ -75,9 +73,11 @@ export  class Home extends React.Component {
               <Modal.Footer>
                 <Button onClick={this.handleClose}>Close</Button>
               </Modal.Footer>
-            </Modal>
+            </Modal> */}
 
-                <div className="button"><Link to="/bookshelf"> Login</Link></div>
+            <ModalHome />
+
+                {/* <div className="button"><Link to="/bookshelf"> Login</Link></div> */}
  
 
             </div>

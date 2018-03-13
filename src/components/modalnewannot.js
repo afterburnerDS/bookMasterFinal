@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Popover, Tooltip, OverlayTrigger  } from 'react-bootstrap';
-import {addAnnotation} from '../actions';
+// import {addAnnotation} from '../actions';
 import  FormNewAnnot  from './formnewannot';
 
 
@@ -25,10 +25,10 @@ export  class ModalNewAnnot extends React.Component {
         this.setState({ show: true });
       }
 
-      addAnnotation(title, annotation){
-        console.log(this.props.bookIndex);
-        this.props.dispatch(addAnnotation(title,annotation,this.props.bookIndex));
-    }
+    //   addAnnotation(title, annotation){
+    //     console.log(this.props.bookIndex);
+    //     this.props.dispatch(addAnnotation(title,annotation,this.props.bookIndex));
+    // }
     
       render() {
         

@@ -5,17 +5,9 @@ import EditAnnotationForm from  './editannotationform'
 
 export  class  EditAnnotation extends React.Component {
 
-    slugify(title) {
-        return title
-            .toString()
-            .toLowerCase()
-            .replace(/[\s\W-]+/g, '-');
-    }
+    
     
     render() {
-
-        const slugifyTtitleAnnot = this.slugify(this.props.title);
-        const slugifyTtitleBook = this.slugify(this.props.bookIndex);
 
         return (
             <main className="container">

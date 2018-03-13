@@ -55,20 +55,20 @@ describe('authError', () => {
 
 
 // describe('login', () => {
-//     it('Should login', (email, password) => {
+//     it.only('Should login', (email, password) => {
        
 
 //         global.fetch = jest.fn().mockImplementation(() =>
 //             Promise.resolve({
 //                 ok: true,
 //                 json() {
-//                     return board;
+//                     return bookshelf;
 //                 }
 //             })
 //         );
 
 //         const dispatch = jest.fn();
-//         return fetchBoard()(dispatch).then(() => {
+//         return fetchProtectedData()(dispatch).then(() => {
 //             expect(fetch).toHaveBeenCalledWith('/board');
 //             expect(dispatch).toHaveBeenCalledWith(fetchBoardSuccess(board));
 //         });

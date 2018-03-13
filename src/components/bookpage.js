@@ -13,35 +13,24 @@ import {fetchProtectedData} from '../actions/protected-data';
 
 export class BookPage extends React.Component {
 
-    // componentDidUpdate() {
-    //     // this.props.dispatch(fetchProtectedData());
-    //   }
-
-    // componentWillUpdate() {
-    //     this.props.dispatch(fetchProtectedData());
-    //   }
-
     constructor(props, context) {
         super(props, context);
     
-    
-        this.state = {
-          show: false
-        };
       }
     
     render() {
-
+        
         const annotations = this.props.annotations.map((annotation, index) => (
          
             <Annotation 
                 index={index}
+                key = {index}
                 idBook = {this.props.idBook}
+                url = {this.props.url}
                 {...annotation}
             /> 
     ));
 
-    console.log(annotations);
         return (
 
     <main className="container__bookPage">
@@ -52,7 +41,7 @@ export class BookPage extends React.Component {
             
             title = {this.props.title}
             authorBook = {this.props.authorBook}
-            cover = {this.props.cover}
+            url = {this.props.url}
             date = {this.props.date}       
             pages = {this.props.pages}
             description = {this.props.description}
@@ -67,7 +56,7 @@ export class BookPage extends React.Component {
                 idEditBook = {this.props.idEditBook}
                 title = {this.props.title}
             authorBook = {this.props.authorBook}
-            cover = {this.props.cover}
+            url = {this.props.url}
             date = {this.props.date}       
             pages = {this.props.pages}
             description = {this.props.description}  
@@ -80,7 +69,7 @@ export class BookPage extends React.Component {
          <div className="bookPage__technical">
              <div className="basicDetails">
                      <div className="coverBook">
-                        {/* <img src={this.props.cover} /> */}
+                        <img src={this.props.url} />
                      </div>
                      <div className="technicalDetails">
                          <p className="titleBook">{this.props.title}</p>
@@ -105,13 +94,18 @@ export class BookPage extends React.Component {
                            onAdd={text => this.addAnnotation(text)}
                         /> */}
 
+                        
+
                         <ModalNewAnnot 
                         annotations = {this.props.annotations}
                         idEditBook = {this.props.idEditBook}
                         authToken= {this.props.authToken}   />
                     
                     </div>
+            <div className="annot__container">
              {annotations}
+
+             </div>
          </div>
      </div>
  </main>
@@ -142,7 +136,7 @@ const mapStateToProps = (state, props) => {
     return {
         title: book.title,
         authorBook: book.authorBook,
-        cover: book.url,
+        url: book.url,
         date: book.date,
         pages: book.pages,
         description: book.description,

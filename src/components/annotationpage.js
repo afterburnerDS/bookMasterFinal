@@ -25,14 +25,10 @@ export  class  AnnotaionPage extends React.Component {
 }
 
 const mapStateToProps = (state, props) => {
-    console.log(props.match.params.bookIndex);
 
     const book = state.protectedData.data.find((book) => {
         return book.idBook === props.match.params.bookIndex
     })
-
-    console.log(book);
-    console.log(props.match.params.annotationId);
 
     const annotation = book.annotations.find((annot) => {
         return annot.idAnnot === props.match.params.annotationId

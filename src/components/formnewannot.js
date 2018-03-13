@@ -4,6 +4,9 @@ import Input from './input';
 import {required, nonEmpty, email} from '../validators';
 import {API_BASE_URL} from '../config';
 import {fetchProtectedData} from '../actions/protected-data';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css'; // ES6
+// import InputField from './inputfield'; 
 
 export class FormNewAnnot extends React.Component {
 
@@ -22,7 +25,7 @@ export class FormNewAnnot extends React.Component {
         return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
       }
     onSubmit(values) {
-        console.log(values.title);
+        console.log(values.annotation);
       
         const idAnnot = this.guid(); 
         const title = values.title.trim();
@@ -119,6 +122,7 @@ export class FormNewAnnot extends React.Component {
                     name="title"
                     type="text"
                     component={Input}
+                    className ="inputTitleAnnot"
                     label="Title"
                     validate={[required, nonEmpty]}
                 />
@@ -126,6 +130,7 @@ export class FormNewAnnot extends React.Component {
                  <Field
                     name="annotation"
                     element="textarea"
+                    className="inputTextAnnot"
                     component={Input}
                     label="Annotation"
                     validate={[required, nonEmpty]}

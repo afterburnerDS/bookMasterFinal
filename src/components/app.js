@@ -10,7 +10,6 @@ import './app.css';
 
 export default function App(props) {
 
-   
     return (
         <Router>
             <div className="app">
@@ -25,6 +24,7 @@ export default function App(props) {
                     <Route exact path="/bookshelf" component={Bookshelf} />
                     <Route exact path="/bookpage/:bookIndex" component={BookPage} />
                     <Route exact path="/annotation/:bookIndex/:annotationId" component={AnnotationPage} />
+                    <Route exact path="/annotation" component={AnnotationPage} />
                     <Route exact path="/editannotation/:bookIndex/:annotationId" component={EditAnnotation} />
                 
             </div>

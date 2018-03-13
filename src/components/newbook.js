@@ -24,14 +24,12 @@ export class NewBook extends React.Component {
       }
 
     onSubmit(values) {
-        console.log(values.title);
+        console.log(values.url);
         // event.preventDefault();
 
-        
-
-          const idBook = this.guid();
+        const idBook = this.guid();
        const title = values.title.trim();
-        const cover = values.url.trim();
+        const url = values.url.trim();
         const authorBook = values.authorBook.trim(); 
         const pages = values.pages.trim();
         const date = values.date.trim();
@@ -46,11 +44,11 @@ export class NewBook extends React.Component {
                 
                 idBook: idBook,
                 title: title,
-                authorBook: authorBook,
-                cover: cover,
-                pages: pages,
-                date: date,
-                description: description
+               authorBook: authorBook,
+               url: url,
+               date: date,
+               pages: pages,
+               description: description   
             }),
             headers: {
                 'Content-Type': 'application/json',

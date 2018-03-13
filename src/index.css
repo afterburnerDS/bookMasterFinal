@@ -217,32 +217,106 @@ BOOKSHELF
 .bookShelf{
     display:flex;
     justify-content: center;
+
+    margin-top: 3rem;
     align-items: center;
     flex-direction: column;
+    background-image: url(https://i.imgur.com/UbSwrfP.jpg);
+    margin-bottom: 3rem;
+    
 }
 .bookShelf__title{
     margin-top: 3rem;
 }
 .bookShelf__container{
-    border: 1px solid black;
-    padding: 4rem;
-    margin: 4rem;
+    /* border: 1px solid black; */
+    /* padding: 4rem; */
+    margin: 2rem;
     display:flex;
     justify-content: center;
     align-items: center;
     flex-direction: row;
     flex-wrap: wrap;
+
+    background: #ccc;
+  background-image: url(https://i.imgur.com/Y9VOVkK.jpg);
+}
+
+.linkBook {
+    background: transparent; 
+}
+
+.linkBook:hover{
+    background: transparent;
 }
 
 .book{
-    height: 15rem;
-    width: auto;
-    border: 1px solid black;
+  
+    width: 150px;
+    height: 220px;
+    /* border: 1px solid black; */
     flex-basis: 25%;
     margin: 2rem;
     cursor: pointer;
+    background-color: #f7f7f7;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0rem 1rem 5rem rgba(0, 0, 0, .4);
+    /* overflow: hidden; */
+    transition: box-shadow .3s linear;
+    /* -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 9px 20px 0 rgba(0, 0, 0, 0.25);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 9px 20px 0 rgba(0, 0, 0, 0.25); */
+/* overflow: hidden; */
+-webkit-transition: -webkit-box-shadow .3s linear;
+transition: -webkit-box-shadow .3s linear;
+transition: box-shadow .3s linear;
+transition: box-shadow .3s linear, -webkit-box-shadow .3s linear;
+
+
 
 }
+
+.book img {
+
+    width: inherit;
+    height: inherit;
+    -webkit-transform-origin: 0 50%;
+          transform-origin: 0 50%;
+  -webkit-transform: rotateY(0);
+          transform: rotateY(0);
+  -webkit-transition: all .45s ease;
+  transition: all .45s ease;
+}
+
+.book:hover {
+    /* -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25), 0 9px 20px 0 rgba(0, 0, 0, 0.45);
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25), 0 9px 20px 0 rgba(0, 0, 0, 0.45); */
+  }
+
+
+  .book:hover img {
+    -webkit-transform: rotateY(-25deg);
+            transform: rotateY(-25deg);
+    /* -webkit-box-shadow: 1px 1px 5px 5px rgba(0, 0, 0, 0.2);
+            box-shadow: 1px 1px 5px 5px rgba(0, 0, 0, 0.2); */
+  }
+
+
+  .divider::after {
+    content: '';
+    /* display: block; */
+    width: 17rem;
+    height: 2rem;
+    /* height: inherit; */
+    position: absolute;
+    z-index: 2;
+    top: 220px;
+    left: -11px;
+    background: url(https://i.imgur.com/UbSwrfP.jpg);
+}
+
+
+
 
 @media only screen and (max-width: 
     550px) {
@@ -259,9 +333,10 @@ BOOKSHELF
 
 }
 
-.newBook__new{
+/* {
     cursor:pointer;
-}
+    margin: 2rem 0;
+} */
 
 /********************************************************
 BOOKPAGE
@@ -361,9 +436,9 @@ BOOKPAGE
  .bookPate__annotations{
     display:flex;
     align-items: center;
-    justify-content: center;
-    flex-direction: row;
-    flex-wrap: wrap;
+    /* justify-content: center; */
+    flex-direction: column;
+   
     /* height: 80rem; */
     width: 60%;
     border: 1px solid black;
@@ -376,8 +451,16 @@ BOOKPAGE
         }
     }
 
+.annot__container{
+    padding: 2rem;
+    margin: 2rem;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
 
-
+}
 
 .titleBook{
     margin-top: 3rem;
@@ -390,8 +473,13 @@ BOOKPAGE
 .coverBook{
     height: 27rem;
     width: 20rem;
-    border: 1px solid black;
+    /* border: 1px solid black; */
     margin: 3rem 0 3rem 0;
+}
+
+.coverBook img {
+    width: inherit;
+    height: inherit;
 }
 
 
@@ -420,21 +508,121 @@ BOOKPAGE
 }
 
 .annot{
-    height: 15rem;
-    width: auto;
+    width: 150px;
+    height: 220px;
+
+    flex-shrink: 1;
     border: 1px solid black;
-    width:26%;
+    /* width:26%; */
     margin: 2rem;
     cursor: pointer;
+    /* background: blue; */
+    transform: translate3d(0, 0, 0);
 
 }
 
-@media only screen and (max-width: 
-    450px) {
-        .annot {
-            width: 100%;
-        }
-    }
+.annot ul {
+
+    width: 150px;
+    position: relative;
+  height: 220px;
+  margin: 0px;
+  padding: 0;
+  list-style: none;
+  -webkit-perspective-origin: 0 50% 0;
+  perspective-origin: 0 50% 0;
+-webkit-perspective: 800px;
+  perspective: 800px;
+-webkit-transform: translate3d(0, 0, 0);
+}
+
+.annot ul > li {
+
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 150px;
+    height: 220px;
+    padding: 0;
+    margin: 0;
+    background-color: ccc;
+    *zoom: 1;
+    filter: progid:DXImageTransform.Microsoft.gradient(gradientType=1, startColorstr='#FF000000', endColorstr='#FFEDEDED');
+    background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgeDE9IjAuMCIgeTE9IjAuNSIgeDI9IjEuMCIgeTI9IjAuNSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzAwMDAwMCIvPjxzdG9wIG9mZnNldD0iOTAlIiBzdG9wLWNvbG9yPSIjMDAwMDAwIi8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjZWRlZGVkIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmFkKSIgLz48L3N2Zz4g');
+    background-size: 100%;
+    background-image: -webkit-gradient(linear, left top, right top, from(#000000), color-stop(90%, #000000), to(#ededed));
+    background-image: linear-gradient(to right, #000000 0%, #000000 90%, #ededed 100%);
+    -webkit-transform-origin: 0 50% 0;
+            transform-origin: 0 50% 0;
+    -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+    -webkit-transition: all 0.5s cubic-bezier(0.25, 1, 0.25, 1);
+    transition: all 0.5s cubic-bezier(0.25, 1, 0.25, 1);
+}
+
+
+.cover {
+    z-index: 2 !important;
+    color:white;
+    text-align: center;
+    display: block;
+    width: 150px;
+    height: 220px;
+    background: #333 !important;
+    -webkit-transform: rotateY(0deg) translateZ(0px);
+            transform: rotateY(0deg) translateZ(0px);
+  }
+
+  .cover img {
+      width:150px;
+      height:220px;
+  }
+
+
+  .page1 {
+    display: none;
+    -webkit-transform: rotateY(20deg) translateZ(-1px);
+            transform: rotateY(20deg) translateZ(-1px);
+  }
+
+
+  .page2 {
+    display: none;
+    -webkit-transform: rotateY(30deg) translateZ(-2px);
+            transform: rotateY(30deg) translateZ(-2px);
+  }
+
+  .page3 {
+    display: none;
+    -webkit-transform: rotateY(40deg) translateZ(-3px);
+            transform: rotateY(40deg) translateZ(-3px);
+  }
+
+
+  .annot:hover .page1 {
+    -webkit-transform: rotateY(-34deg);
+            transform: rotateY(-34deg);
+  }
+
+
+  .annot:hover .page2 {
+    -webkit-transform: rotateY(-27deg);
+            transform: rotateY(-27deg);
+  }
+  
+  .annot:hover .page3 {
+    -webkit-transform: rotateY(-15deg);
+            transform: rotateY(-15deg);
+  }
+  
+  .annot:hover .cover {
+    -webkit-transform: rotateY(-40deg);
+            transform: rotateY(-40deg);
+  }
+  
+
+
 
     /********************************************************
 ANNOTATION
@@ -443,3 +631,63 @@ ANNOTATION
     margin: 3rem;
 }
 
+
+
+
+
+    /********************************************************
+FORM
+********************************************************/
+
+  label {
+      display: block;
+      margin: 6px;
+  }
+  
+  input, textarea, button {
+      margin: 6px;
+      display: block;
+  }
+  
+  textarea{
+      width: 558px !important;
+      height: 200px !important;
+  }
+  
+  .message {
+      padding: 12px 6px;
+  }
+  
+  .message-success {
+      background-color: #5CB85C;
+      color: white;
+  }
+  
+  .message-error, .form-error {
+      background-color: red;
+      color: white;
+  }
+  
+  .form-error {
+      margin: 0 6px;
+      padding: 6px;
+      display: inline-block;
+  }
+
+
+
+    /********************************************************
+BTNS
+********************************************************/
+
+
+.btn-primary {
+    background-color:#BC9866;;
+    border-color: #BC9866
+}
+
+.btn-primary:hover{
+
+    background-color:#754F44;
+}
+  

@@ -4,6 +4,8 @@ import {registerUser} from '../actions/users';
 import {login} from '../actions/auth';
 import Input from './input';
 import {required, nonEmpty, matches, length, isTrimmed} from '../validators';
+
+import { withRouter } from "react-router-dom";
 const passwordLength = length({min: 10, max: 72});
 const matchesPassword = matches('password');
 
@@ -14,7 +16,12 @@ export class RegisterForm extends React.Component {
        
         return this.props
         .dispatch(registerUser(user))
-        .then(() => this.props.dispatch(login(email, password)));
+        .then(() => this.props.dispatch(login(email, password)).then(() => {
+
+            this.props.history.push("/bookshelf");
+        } )
+    
+    );
     }
 
     render() {
@@ -54,9 +61,11 @@ export class RegisterForm extends React.Component {
         );
     }
 }
-
-export default reduxForm({
+const form =  reduxForm({
     form: 'registerform',
     onSubmitFail: (errors, dispatch) =>
         dispatch(focus('contact', Object.keys(errors)[0]))
 })(RegisterForm);
+
+
+export default withRouter(form);
