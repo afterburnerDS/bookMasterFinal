@@ -24,9 +24,10 @@ describe('<DeleteBookForm />', () => {
     });
 
   
-    it.only('Should dispatch onDeleteBook when the form is submitted', () => {
+    it('Should dispatch deleteBook when the form is submitted', () => {
       const dispatch = jest.fn();
-      const wrapper = mount(<DeleteBookForm  dispatch={dispatch} store={store} />);
+      const wrapper = mount(<DeleteBookForm  dispatch={() => {} } store={store}/>);
+      wrapper.simulate('submit');
       expect(dispatch).toHaveBeenCalledWith(mockDeleteBook);
     });
   

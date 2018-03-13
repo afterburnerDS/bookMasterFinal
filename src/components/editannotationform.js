@@ -4,7 +4,10 @@ import Input from './input';
 import {required, nonEmpty, email} from '../validators';
 import {API_BASE_URL} from '../config';
 import {fetchProtectedData} from '../actions/protected-data';
+import {deleteBook} from '../actions/index';
 import { withRouter } from "react-router-dom";
+import {editAnnotation} from '../actions/index';
+
 
 export class EditAnnotationForm extends React.Component {
 
@@ -42,64 +45,19 @@ export class EditAnnotationForm extends React.Component {
             }
         })
 
-        console.log(newAnnotations);
+        const idEditBook = this.props.idEditBook;
 
-        return fetch(`${API_BASE_URL}/books/${this.props.idEditBook}`, {
-            method: 'PUT',
-            body: JSON.stringify({
-                id: this.props.idEditBook,
-                annotations: newAnnotations
-            }
+        this.props.dispatch(editAnnotation(idEditBook,newAnnotations ));
 
+        this.props.dispatch(fetchProtectedData());
+            
+        
+      
+            // window.location.href = `/annotation/${this.props.idBook}/${this.props.idAnnot}`  
+       
 
-            ),
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.props.authToken}`
-            }
-        })
-            .then(res => {
-                if (!res.ok) {
-                    if (
-                        res.headers.has('content-type') &&
-                        res.headers
-                            .get('content-type')
-                            .startsWith('application/json')
-                    ) {
-                        // It's a nice JSON error returned by us, so decode it
-                        return res.json().then(err => Promise.reject(err));
-                    }
-                    // It's a less informative error returned by express
-                    return Promise.reject({
-                        code: res.status,
-                        message: res.statusText
-                    });
-                }
-                return;
-            })
-            .then(() => { 
-                console.log('Submitted with values', values);
-                this.props.dispatch(fetchProtectedData());
-                
-
-                this.props.history.push(`/annotation/${this.props.idBook}/${this.props.idAnnot}`);
-            })
-            .catch(err => {
-                const {reason, message, location} = err;
-                if (reason === 'ValidationError') {
-                    // Convert ValidationErrors into SubmissionErrors for Redux Form
-                    return Promise.reject(
-                        new SubmissionError({
-                            [location]: message
-                        })
-                    );
-                }
-                return Promise.reject(
-                    new SubmissionError({
-                        _error: 'Error submitting message'
-                    })
-                );
-            });
+         this.props.history.push(`/annotation/${this.props.idBook}/${this.props.idAnnot}`);
+    
 
         
 
@@ -158,9 +116,11 @@ export class EditAnnotationForm extends React.Component {
 
 const form  = reduxForm({
     form: 'editannotform',
-    onSubmitFail: (errors, dispatch) =>
-        dispatch(focus('editannotform', Object.keys(errors)[0]))
+    // onSubmitFail: (errors, dispatch) =>
+    //     dispatch(focus('editannotform', Object.keys(errors)[0]))
 })(EditAnnotationForm);
 
 
 export default withRouter(form);
+
+// export default form;

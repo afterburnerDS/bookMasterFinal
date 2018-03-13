@@ -7,6 +7,7 @@ import {fetchProtectedData} from '../actions/protected-data';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // ES6
 // import InputField from './inputfield'; 
+import {newAnnotation} from '../actions/index';
 
 export class FormNewAnnot extends React.Component {
 
@@ -30,68 +31,78 @@ export class FormNewAnnot extends React.Component {
         const idAnnot = this.guid(); 
         const title = values.title.trim();
         const annotation = values.annotation.trim();
+        const idEditBook = this.props.idEditBook;
+        const annotations = this.props.annotations;
+
+
+
 
         // if (title && annotation && this.props.onAdd) {
         //     this.props.onAdd(title, annotation);
         // }
 
-        return fetch(`${API_BASE_URL}/books/${this.props.idEditBook}`, {
-            method: 'PUT',
-            body: JSON.stringify({
-                id: this.props.idEditBook,
-                annotations: [...this.props.annotations, {
-                    idAnnot,
-                    title,
-                    annotation
-                }]
-            }
+
+        this.props.dispatch(newAnnotation(idEditBook, annotations, idAnnot, title, annotation ));
+
+        this.props.dispatch(fetchProtectedData());
+
+        // return fetch(`${API_BASE_URL}/books/${this.props.idEditBook}`, {
+        //     method: 'PUT',
+        //     body: JSON.stringify({
+        //         id: this.props.idEditBook,
+        //         annotations: [...this.props.annotations, {
+        //             idAnnot,
+        //             title,
+        //             annotation
+        //         }]
+        //     }
 
 
-            ),
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.props.authToken}`
-            }
-        })
-            .then(res => {
-                if (!res.ok) {
-                    if (
-                        res.headers.has('content-type') &&
-                        res.headers
-                            .get('content-type')
-                            .startsWith('application/json')
-                    ) {
-                        // It's a nice JSON error returned by us, so decode it
-                        return res.json().then(err => Promise.reject(err));
-                    }
-                    // It's a less informative error returned by express
-                    return Promise.reject({
-                        code: res.status,
-                        message: res.statusText
-                    });
-                }
-                return;
-            })
-            .then(() => { 
-                console.log('Submitted with values', values);
-                this.props.dispatch(fetchProtectedData());
-            })
-            .catch(err => {
-                const {reason, message, location} = err;
-                if (reason === 'ValidationError') {
-                    // Convert ValidationErrors into SubmissionErrors for Redux Form
-                    return Promise.reject(
-                        new SubmissionError({
-                            [location]: message
-                        })
-                    );
-                }
-                return Promise.reject(
-                    new SubmissionError({
-                        _error: 'Error submitting message'
-                    })
-                );
-            });
+        //     ),
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //         'Authorization': `Bearer ${this.props.authToken}`
+        //     }
+        // })
+        //     .then(res => {
+        //         if (!res.ok) {
+        //             if (
+        //                 res.headers.has('content-type') &&
+        //                 res.headers
+        //                     .get('content-type')
+        //                     .startsWith('application/json')
+        //             ) {
+        //                 // It's a nice JSON error returned by us, so decode it
+        //                 return res.json().then(err => Promise.reject(err));
+        //             }
+        //             // It's a less informative error returned by express
+        //             return Promise.reject({
+        //                 code: res.status,
+        //                 message: res.statusText
+        //             });
+        //         }
+        //         return;
+        //     })
+        //     .then(() => { 
+        //         console.log('Submitted with values', values);
+        //         this.props.dispatch(fetchProtectedData());
+        //     })
+        //     .catch(err => {
+        //         const {reason, message, location} = err;
+        //         if (reason === 'ValidationError') {
+        //             // Convert ValidationErrors into SubmissionErrors for Redux Form
+        //             return Promise.reject(
+        //                 new SubmissionError({
+        //                     [location]: message
+        //                 })
+        //             );
+        //         }
+        //         return Promise.reject(
+        //             new SubmissionError({
+        //                 _error: 'Error submitting message'
+        //             })
+        //         );
+        //     });
     }
 
     render() {
