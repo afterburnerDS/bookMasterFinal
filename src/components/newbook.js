@@ -5,7 +5,6 @@ import {required, nonEmpty} from '../validators';
 import {fetchProtectedData} from '../actions/protected-data';
 import {newBook} from '../actions/index';
 import {withRouter } from 'react-router-dom' // 4.0.0 
-import {connect} from 'react-redux';
 
 
 export class NewBook extends React.Component {
