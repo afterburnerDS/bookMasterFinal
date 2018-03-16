@@ -1,13 +1,14 @@
 import {createStore, applyMiddleware, combineReducers} from 'redux'
 import {reducer as formReducer} from 'redux-form'
 import {loadAuthToken} from './local-storage';
+import {loadState, saveState} from './local-storage';
 import thunk from 'redux-thunk';
 import authReducer from './reducers/auth';
 import protectedDataReducer from './reducers/protected-data';
-
+import throttle from 'lodash/throttle';
 import {setAuthToken, refreshAuthToken} from './actions/auth';
 
-
+const persistedState = loadState();
 const store = createStore(
     combineReducers({
         form: formReducer,
@@ -16,10 +17,19 @@ const store = createStore(
         
     }),
 
+    persistedState,
+
 
     applyMiddleware(thunk),
     // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
+
+
+store.subscribe(throttle(
+    () => {
+    saveState(store.getState());
+},1000 ));
+
 
 // Hydrate the authToken from localStorage if it exist
 const authToken = loadAuthToken();
