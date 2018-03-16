@@ -1,17 +1,12 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
-import BookPage from './bookpage';
+import requiresLogin from './requires-login';
+import {Link} from 'react-router-dom';
 import Book from './book';
-import {addBook} from '../actions';
-
-// import ReactModal from 'react-modal';
-import {reduxForm, Field, SubmissionError, focus} from 'redux-form';
-import Input from './input';
-import NewBook from './newbook'
- import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Popover, Tooltip, OverlayTrigger  } from 'react-bootstrap';
  import {fetchProtectedData} from '../actions/protected-data';
  import ModalNewBook from './modalnewbook';
+ import {clearAuth} from '../actions/auth';
+import {clearAuthToken} from '../local-storage';
 
 
 export class BookShelf extends React.Component  {
@@ -22,6 +17,11 @@ export class BookShelf extends React.Component  {
       this.props.dispatch(fetchProtectedData());
     
       }
+
+      logOut() {
+        this.props.dispatch(clearAuth());
+        clearAuthToken();
+    }
 
     render() {
       let books = [];
@@ -40,7 +40,10 @@ export class BookShelf extends React.Component  {
       
         return (
             <main className="container">
+            <div className="logoutBtnBookshelf" onClick={() => this.logOut()}>
+            <Link to={`/`}>Logout </Link>
 
+            </div>
                 <div className="newBook">
                     <div className="newBook__new">
 
@@ -83,7 +86,7 @@ BookShelf.defaultProps = {
 
 const mapStateToProps = (state, props) => {
 
-  console.log(state.protectedData.data);
+  
     
    return{
             books: state.protectedData.data,
@@ -94,6 +97,12 @@ const mapStateToProps = (state, props) => {
     
 };
 
-export default connect(mapStateToProps)(BookShelf);
+
+
+
+export default requiresLogin()(connect(mapStateToProps)(BookShelf));
+
+
+// export default connect(mapStateToProps)(BookShelf);
 
 

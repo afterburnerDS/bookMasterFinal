@@ -5,10 +5,9 @@ import store from './store';
 import App from './components/app';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
-console.log(store.getState());
+
 ReactDOM.render(
     <Provider store={store}>
-    
        <App />
     </Provider>,
     

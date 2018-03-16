@@ -85,6 +85,8 @@ body{
     font-weight: 400;
     line-height: 1.6;
     font-size: 2rem;
+    background-color: #FFEFD6;
+    /* background-color: #1E3855; */
     color: #754F44;
     /* background:#FDD692; */
 }
@@ -109,13 +111,15 @@ p{
 }
 
 .container{
-    margin: 1rem auto;
+    margin: 2rem auto;
     max-width:85rem;
     display:flex;
     flex-direction:column;
-    border: 1px solid black;
-    /* background-color:#FBFFB9; */
-    box-shadow: 0rem 1rem 5rem rgba(0, 0, 0, .4);
+    border: 0px solid black !important;
+    background-color:#E8CDA4;
+    /* background-color: #9EABB9; */
+    padding:3rem;
+    box-shadow: 0rem 1rem 2rem rgba(0, 0, 0, .4) !important;
 }
 
 .signout{
@@ -150,9 +154,15 @@ p{
     margin-bottom: 5rem;
 }
 
+.imgHeader img {
+    height: 15rem;
+    margin-bottom: 2rem;
+    
+}
+
 @media only screen and (max-width: 
     550px) {
-        .imgLogo {
+        .imgHeader img {
            
             height: 10rem;
         }
@@ -217,16 +227,18 @@ BOOKSHELF
 .bookShelf{
     display:flex;
     justify-content: center;
-
     margin-top: 3rem;
     align-items: center;
     flex-direction: column;
     background-image: url(https://i.imgur.com/UbSwrfP.jpg);
     margin-bottom: 3rem;
+    box-shadow: 0rem 1rem 3rem rgba(0, 0, 0, .3) !important;
     
 }
 .bookShelf__title{
     margin-top: 3rem;
+    font-weight: bold;
+    font-size: 3rem;
 }
 .bookShelf__container{
     /* border: 1px solid black; */
@@ -241,6 +253,7 @@ BOOKSHELF
     background: #ccc;
   background-image: url(https://i.imgur.com/Y9VOVkK.jpg);
 }
+
 
 .linkBook {
     background: transparent; 
@@ -329,7 +342,7 @@ transition: box-shadow .3s linear, -webkit-box-shadow .3s linear;
     display:flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 3rem;
+    margin-top: 1rem;
 
 }
 
@@ -346,9 +359,11 @@ BOOKPAGE
     max-width: 125rem;
     display:flex;
     flex-direction:column;
-    border: 1px solid black;
+    /* border: 1px solid black; */
     /* background-color:#FBFFB9; */
-    box-shadow: 0rem 1rem 5rem rgba(0, 0, 0, .4);
+    /* box-shadow: 0rem 1rem 5rem rgba(0, 0, 0, .4); */
+    background-color: #fff6e7;
+    box-shadow: 0rem 1rem 2rem rgba(0, 0, 0, .4) !important;
 }
 
 
@@ -374,8 +389,10 @@ BOOKPAGE
     flex-direction: column;
     /* height: 80rem; */
     width: 40%;
-    border: 1px solid black;
+    /* border: 1px solid black; */
     margin-right: 2rem;
+    background-color:#E8CDA4;
+    box-shadow: 0rem 1rem 3rem rgba(0, 0, 0, .3) !important;
  }
 
  .basicDetails{
@@ -438,10 +455,18 @@ BOOKPAGE
     align-items: center;
     /* justify-content: center; */
     flex-direction: column;
-   
+    /* background-color:#E8CDA4; */
+    background-color:#FFF6D6;
     /* height: 80rem; */
     width: 60%;
-    border: 1px solid black;
+   
+    /* border: 1px solid black; */
+    box-shadow: 0rem 1rem 3rem rgba(0, 0, 0, .3) !important;
+ }
+
+ .bookPate__annotations .newBook__new {
+
+    margin-top: 2rem;
  }
 
  @media only screen and (max-width: 
@@ -462,7 +487,12 @@ BOOKPAGE
 
 }
 
+
+
 .titleBook{
+    text-align: center;
+    word-break: break-all;
+    padding: 1rem;
     margin-top: 3rem;
 }
 
@@ -505,16 +535,18 @@ BOOKPAGE
 .resumeBook{
     margin: 3rem 0 3rem 0;
     text-align: center;
+    word-break: break-all;
+    padding: 1rem;
 }
 
 .annot{
     width: 150px;
     height: 220px;
-
+    margin: 4rem;
     flex-shrink: 1;
-    border: 1px solid black;
+    /* border: 1px solid black; */
     /* width:26%; */
-    margin: 2rem;
+    
     cursor: pointer;
     /* background: blue; */
     transform: translate3d(0, 0, 0);
@@ -569,6 +601,7 @@ BOOKPAGE
     display: block;
     width: 150px;
     height: 220px;
+    word-break: break-all;
     background: #333 !important;
     -webkit-transform: rotateY(0deg) translateZ(0px);
             transform: rotateY(0deg) translateZ(0px);
@@ -577,7 +610,11 @@ BOOKPAGE
   .cover img {
       width:150px;
       height:220px;
+      word-break: break-all;
+      
   }
+
+  
 
 
   .page1 {
@@ -600,35 +637,77 @@ BOOKPAGE
   }
 
 
-  .annot:hover .page1 {
+  .annot:hover .page1,
+  .annot:focus .page1,
+  .annot:focus-within .page1,
+  .annot:active .page1 {
     -webkit-transform: rotateY(-34deg);
             transform: rotateY(-34deg);
   }
 
 
-  .annot:hover .page2 {
+  .annot:hover .page2,
+  .annot:focus .page2,
+  .annot:focus-within .page2,
+  .annot:active .page2 {
     -webkit-transform: rotateY(-27deg);
             transform: rotateY(-27deg);
   }
   
-  .annot:hover .page3 {
+  .annot:hover .page3,
+  .annot:focus .page3,
+  .annot:focus-within .page3,
+  .annot:active .page3 {
     -webkit-transform: rotateY(-15deg);
             transform: rotateY(-15deg);
   }
   
-  .annot:hover .cover {
+  .annot:hover .cover,
+  .annot:focus .cover,
+  .annot:focus-within .cover,
+  .annot:active .cover {
     -webkit-transform: rotateY(-40deg);
             transform: rotateY(-40deg);
+  }
+
+  .annot:hover,
+  .annot:focus,
+  .annot:active{
+
+    outline: 0 !important;
+    border: 0 !important;
   }
   
 
 
 
     /********************************************************
-ANNOTATION
+ANNOTATION PAGE
 ********************************************************/
 .annotation{
     margin: 3rem;
+    word-break: break-all;
+}
+
+.Annotation__container{
+
+    margin-top: 2rem;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff6e7;
+    box-shadow: 0rem 1rem 3rem rgba(0, 0, 0, .3) !important;
+    padding: 2rem;
+    border-radius: 2rem;
+}
+
+.Annotation__container .title {
+    font-weight: bold;
+    font-size: 3rem;
+    word-break: break-all;
+    text-align: center;
+    
 }
 
 
@@ -648,9 +727,14 @@ FORM
       margin: 6px;
       display: block;
   }
+
+  input {
+
+    width: 96% !important;
+  }
   
   textarea{
-      width: 558px !important;
+    width: 96% !important;
       height: 200px !important;
   }
   
@@ -664,7 +748,7 @@ FORM
   }
   
   .message-error, .form-error {
-      background-color: red;
+      background-color: #AE1E23;
       color: white;
   }
   
@@ -679,15 +763,74 @@ FORM
     /********************************************************
 BTNS
 ********************************************************/
+.backBtn{
+    margin:2rem;
+}
 
+.logoutBtn{
+    margin:2rem;
+}
 
+.logoutBtnBookshelf{
+    /* margin: 2rem; */
+    align-self: flex-end;
+}
+
+.container__buttons{
+
+    display:flex;
+   /* align-items: center; */
+   justify-content: space-between; 
+}
+
+.editDelBtns{
+
+    display:flex;
+    margin: 2rem;
+}
+
+.annotBtns{
+
+    display:flex;
+    margin-bottom: 1rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.editBtnLink{
+
+    color: white !important;
+    margin-top: 0.5rem;
+   
+      
+}
 .btn-primary {
-    background-color:#BC9866;;
-    border-color: #BC9866
+    background-color:#916F40;;
+    border-color: #916F40;
+    transition: .2s all;
 }
 
 .btn-primary:hover{
 
     background-color:#754F44;
+    border-color: #754F44
+}
+
+.btn-primary:active{
+
+    background-color:#754F44 !important;
+    border-color: #754F44
+}
+
+.btn-primary:focus{
+
+    background-color:#754F44;
+    border-color: #754F44
+}
+
+.btn-primary:visited{
+
+    /* background-color:#754F44;
+    border-color: #754F44 */
 }
   

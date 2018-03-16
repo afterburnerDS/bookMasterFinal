@@ -14,7 +14,6 @@ describe('<Book/>', () => {
      it('Renders the title', () => {
          const title = "Foo";
          const wrapper = shallow(<Book title={title} />);
-        console.log(wrapper);
      });
  
     

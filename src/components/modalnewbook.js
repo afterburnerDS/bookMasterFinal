@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Popover, Tooltip, OverlayTrigger  } from 'react-bootstrap';
+import { Button, Modal  } from 'react-bootstrap';
 import  NewBook  from './newbook';
 
 
@@ -35,7 +35,7 @@ export  class ModalNewBook extends React.Component {
     
             <Modal show={this.state.show} onHide={this.handleClose}>
               <Modal.Header closeButton>
-                <Modal.Title>Modal heading</Modal.Title>
+                <Modal.Title>New Book</Modal.Title>
               </Modal.Header>
               <Modal.Body>
 

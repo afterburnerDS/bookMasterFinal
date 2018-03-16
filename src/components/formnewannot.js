@@ -1,15 +1,14 @@
 import React from 'react';
-import {reduxForm, Field, SubmissionError, focus} from 'redux-form';
+import {reduxForm, Field, focus} from 'redux-form';
 import Input from './input';
-import {required, nonEmpty, email} from '../validators';
-import {API_BASE_URL} from '../config';
+import {required, nonEmpty} from '../validators';
 import {fetchProtectedData} from '../actions/protected-data';
-import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // ES6
 // import InputField from './inputfield'; 
 import {newAnnotation} from '../actions/index';
+import {withRouter } from 'react-router-dom' // 4.0.0 
 
-export class FormNewAnnot extends React.Component {
+export  class FormNewAnnot extends React.Component {
 
     constructor(props) {
         super(props);
@@ -26,8 +25,6 @@ export class FormNewAnnot extends React.Component {
         return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
       }
     onSubmit(values) {
-        console.log(values.annotation);
-      
         const idAnnot = this.guid(); 
         const title = values.title.trim();
         const annotation = values.annotation.trim();
@@ -35,74 +32,19 @@ export class FormNewAnnot extends React.Component {
         const annotations = this.props.annotations;
 
 
-
-
-        // if (title && annotation && this.props.onAdd) {
-        //     this.props.onAdd(title, annotation);
-        // }
-
-
         this.props.dispatch(newAnnotation(idEditBook, annotations, idAnnot, title, annotation ));
 
-        this.props.dispatch(fetchProtectedData());
+        return this.props.dispatch(fetchProtectedData()).then(
 
-        // return fetch(`${API_BASE_URL}/books/${this.props.idEditBook}`, {
-        //     method: 'PUT',
-        //     body: JSON.stringify({
-        //         id: this.props.idEditBook,
-        //         annotations: [...this.props.annotations, {
-        //             idAnnot,
-        //             title,
-        //             annotation
-        //         }]
-        //     }
+            () => {
+                
+                this.props.history.push(`/bookpage/${this.props.idBook}`);
+            }
+        );
+        
+   
 
-
-        //     ),
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         'Authorization': `Bearer ${this.props.authToken}`
-        //     }
-        // })
-        //     .then(res => {
-        //         if (!res.ok) {
-        //             if (
-        //                 res.headers.has('content-type') &&
-        //                 res.headers
-        //                     .get('content-type')
-        //                     .startsWith('application/json')
-        //             ) {
-        //                 // It's a nice JSON error returned by us, so decode it
-        //                 return res.json().then(err => Promise.reject(err));
-        //             }
-        //             // It's a less informative error returned by express
-        //             return Promise.reject({
-        //                 code: res.status,
-        //                 message: res.statusText
-        //             });
-        //         }
-        //         return;
-        //     })
-        //     .then(() => { 
-        //         console.log('Submitted with values', values);
-        //         this.props.dispatch(fetchProtectedData());
-        //     })
-        //     .catch(err => {
-        //         const {reason, message, location} = err;
-        //         if (reason === 'ValidationError') {
-        //             // Convert ValidationErrors into SubmissionErrors for Redux Form
-        //             return Promise.reject(
-        //                 new SubmissionError({
-        //                     [location]: message
-        //                 })
-        //             );
-        //         }
-        //         return Promise.reject(
-        //             new SubmissionError({
-        //                 _error: 'Error submitting message'
-        //             })
-        //         );
-        //     });
+        
     }
 
     render() {
@@ -110,7 +52,7 @@ export class FormNewAnnot extends React.Component {
         if (this.props.submitSucceeded) {
             successMessage = (
                 <div className="message message-success">
-                    Message submitted successfully
+                    Annotation added successfully
                 </div>
             );
         }
@@ -148,16 +90,26 @@ export class FormNewAnnot extends React.Component {
                 />
                 <button
                     type="submit"
-                    disabled={this.props.pristine || this.props.submitting}>
-                    Add Book
+                    disabled={this.props.pristine || this.props.submitting || this.props.submitSucceeded}>
+                    Add Annotation
                 </button>
             </form>
         );
     }
 }
 
-export default reduxForm({
-    form: 'contact',
-    // onSubmitFail: (errors, dispatch) =>
-    //     dispatch(focus('contact', Object.keys(errors)[0]))
+
+export const  routedForm =  withRouter(FormNewAnnot);
+
+export const form =  reduxForm({
+    form: 'editform',
+    onSubmitFail: (errors, dispatch) =>
+        dispatch(focus('editform', Object.keys(errors)[0]))
 })(FormNewAnnot);
+
+
+
+export default withRouter(form);
+
+
+

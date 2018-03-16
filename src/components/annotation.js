@@ -1,14 +1,11 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 export class  Annotation extends React.Component {
 
     
     render() {
-        console.log(this.props.url);
-        // const slugifyTtitleAnnot = this.slugify(this.props.title);
-        // const slugifyTtitleBook = this.slugify(this.props.bookIndex);
         return (
             <div className="annot">
                      <Link to={`/annotation/${this.props.idBook}/${this.props.idAnnot}`}>
@@ -29,7 +26,5 @@ export class  Annotation extends React.Component {
      );
     }
 }
-
-
 
 export default connect()(Annotation);

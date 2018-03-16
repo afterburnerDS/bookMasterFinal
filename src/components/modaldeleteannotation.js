@@ -1,8 +1,9 @@
 import React from 'react';
-import { Button, Modal  } from 'react-bootstrap';
-import DeleteBookForm from './deletebookform';
+import { Button, Modal } from 'react-bootstrap';
+import FormDeleteAnnotation from './formdeleteannot';
 
-export default class ModalDeleteBook extends React.Component {
+
+export default class ModalDeleteAnnotation extends React.Component {
     constructor(props, context) {
         super(props, context);
     
@@ -28,17 +29,20 @@ export default class ModalDeleteBook extends React.Component {
         return (
             <div>
               <Button bsStyle="primary" bsSize="large" onClick={this.handleShow}>
-      Delete Book
+      Delete Annotation
     </Button>
 
     <Modal show={this.state.show} onHide={this.handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>DeleteBook</Modal.Title>
+        <Modal.Title>Delete Annotation</Modal.Title>
       </Modal.Header>
       <Modal.Body>
 
-        <DeleteBookForm
+        <FormDeleteAnnotation
           idEditBook = {this.props.idEditBook}
+          idBook = {this.props.idBook}
+          idAnnot = {this.props.idAnnot}
+          annotations = {this.props.annotations}
           authToken= {this.props.authToken}    
           />
       

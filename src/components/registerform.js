@@ -1,15 +1,14 @@
 import React from 'react';
-import {Field, reduxForm, focus, SubmissionError} from 'redux-form';
+import {Field, reduxForm, focus} from 'redux-form';
 import {registerUser} from '../actions/users';
 import {login} from '../actions/auth';
 import Input from './input';
-import {required, nonEmpty, matches, length, isTrimmed} from '../validators';
-
+import {required, nonEmpty, length, email} from '../validators';
 import { withRouter } from "react-router-dom";
-const passwordLength = length({min: 10, max: 72});
-const matchesPassword = matches('password');
 
-export class RegisterForm extends React.Component {
+const passwordLength = length({min: 10, max: 72});
+
+export  class RegisterForm extends React.Component {
     onSubmit(values) {
         const {email, password, name} = values;
         const user = {email, password, name};
@@ -42,7 +41,7 @@ export class RegisterForm extends React.Component {
                     type="text"
                     component={Input}
                     label="Email"
-                    validate={[required, nonEmpty]}
+                    validate={[required, nonEmpty, email]}
                 />
                
                 <Field
@@ -50,7 +49,7 @@ export class RegisterForm extends React.Component {
                     type="password"
                     component={Input}
                     label="Password"
-                    validate={[required, nonEmpty]}
+                    validate={[required, nonEmpty, passwordLength]}
                 />
                 <button
                     type="submit"
@@ -61,7 +60,10 @@ export class RegisterForm extends React.Component {
         );
     }
 }
-const form =  reduxForm({
+
+export const  routedForm =  withRouter(RegisterForm);
+
+export const form =  reduxForm({
     form: 'registerform',
     onSubmitFail: (errors, dispatch) =>
         dispatch(focus('contact', Object.keys(errors)[0]))
@@ -69,3 +71,5 @@ const form =  reduxForm({
 
 
 export default withRouter(form);
+
+

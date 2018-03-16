@@ -1,37 +1,13 @@
 import React from 'react';
-import {BrowserRouter as Router, Route, Link, Redirect} from 'react-router-dom';
 import './home.css';
 import {connect} from 'react-redux';
 import ModalHome from './modalhome';
 
 export  class Home extends React.Component {
 
-  
-
-    constructor(props, context) {
-        super(props, context);
     
-        // this.handleShow = this.handleShow.bind(this);
-        // this.handleClose = this.handleClose.bind(this);
-    
-        // this.state = {
-        //   show: false
-        // };
-      }
-    
-    //   handleClose() {
-    //     this.setState({ show: false });
-    //   }
-    
-    //   handleShow() {
-    //     this.setState({ show: true });
-    //   }
-
     render() {
 
-        // if (this.props.loggedIn) {
-        //     return <Redirect to="/bookshelf" />;
-        // }
         return (
             <main className="container">
             <div className="content_mainPage">
@@ -39,11 +15,9 @@ export  class Home extends React.Component {
             <div className="content_mainPage--secondary">
                 <p className="welcomeTitle">Welcome to Book Master ! </p>
 
-                <p className="instructions">Here you will be able to create your own recipes, and choose ingredients from our database of more than 300.000
-                    foods from all around the world ! You can also edit, delete, and also filter your recipes by ingredient
-                    used or tag inserted.</p>
+                <p className="instructions">Here you will be able to create your own annotations from your favourite books. Never miss an interesting quote and or an inspiring thought, everything is saved in Book Master ! </p>
 
-                <p className="happyCooking">Happy Cooking !</p>
+                <p className="happyCooking">Happy Readings !</p>
 
 
                 <div className="loginCredentials">

@@ -1,22 +1,20 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
-import {addAnnotation} from '../actions';
+import {Link} from 'react-router-dom';
 import Annotation from './annotation';
-import Input from './input';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Popover, Tooltip, OverlayTrigger  } from 'react-bootstrap';
-import NewBook from './newbook';
 import ModalEditBook from './modaleditbook';
 import ModalNewAnnot from './modalnewannot';
 import ModalDeleteBook from './modaldeletebook';
-import {fetchProtectedData} from '../actions/protected-data';
+import {clearAuth} from '../actions/auth';
+import {clearAuthToken} from '../local-storage';
 
 export class BookPage extends React.Component {
 
-    constructor(props, context) {
-        super(props, context);
-    
-      }
+      logOut() {
+
+        this.props.dispatch(clearAuth());
+        clearAuthToken();
+    }
     
     render() {
         
@@ -34,8 +32,21 @@ export class BookPage extends React.Component {
         return (
 
     <main className="container__bookPage">
-     <div className="backBtn">
-     <Link to="/bookshelf">Back </Link></div>
+    <div className="container__buttons">
+    <div className="backBtn">
+     <Link to="/bookshelf"> Back </Link></div>
+     <div className="logoutBtn" onClick={() => this.logOut()}>
+            <Link to={`/`}>Logout </Link>
+
+            </div>
+     
+     
+    </div>
+     
+     
+     <div className="bookPage">
+         <div className="bookPage__technical">
+         <div className="editDelBtns">
      <div className="editBtn">
             <ModalEditBook 
             
@@ -64,21 +75,20 @@ export class BookPage extends React.Component {
           
             />
      </div>
-     
-     <div className="bookPage">
-         <div className="bookPage__technical">
+     </div>
              <div className="basicDetails">
                      <div className="coverBook">
-                        <img src={this.props.url} />
+                        <img src={this.props.url} alt="cover of book" />
                      </div>
                      <div className="technicalDetails">
                          <p className="titleBook">{this.props.title}</p>
                          <p className="authorBook">{this.props.authorBook}</p>
-                         <p className="dateBook">Year:
+                         <p className="dateBook">Year:&nbsp; 
                              <span className="dateBook__span">{this.props.date}</span>
                          </p>
-                         <p className="pagesBook">Pages:
-                             <span className="pagesBook__span">{this.props.pages}</span>
+                         <p className="pagesBook">
+                            Pages:&nbsp; 
+                             <span className="pagesBook__span">{this.props.pages}`</span>
                          </p>           
                      </div>  
              </div>  
@@ -99,6 +109,7 @@ export class BookPage extends React.Component {
                         <ModalNewAnnot 
                         annotations = {this.props.annotations}
                         idEditBook = {this.props.idEditBook}
+                        idBook = {this.props.idBook}
                         authToken= {this.props.authToken}   />
                     
                     </div>
@@ -117,14 +128,10 @@ export class BookPage extends React.Component {
 
 const mapStateToProps = (state, props) => {
     
-    console.log(state.protectedData.data);
     const book = state.protectedData.data.find((book) => {
         return book.idBook === props.match.params.bookIndex
     })
 
-    
-
-    console.log(book);
 
     // const book = Object.assign(
     //     {},

@@ -1,41 +1,39 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import { EditAnnotationForm} from './editannotationform';
-import {editAnnotation} from '../actions/index';
-import { MemoryRouter, Router, withRouter } from 'react-router-dom' // 4.0.0 
+import {RegisterForm} from './registerform';
+import { MemoryRouter, Router, withRouter } from 'react-router-dom' // 4.0.0
+ 
 
 // import { deleteBook } from '../actions/index';
 import store from '../store';
 
-
-
-const mockEditAnnotation = {
-  type: 'EDIT_ANNOTATION'
+const mockRegister = {
+  type: 'REGISTER_USER'
 };
 
-jest.mock('../actions/index', () => Object.assign({},
-  require.requireActual('../actions/index'),
+jest.mock('../actions/users', () => Object.assign({},
+  require.requireActual('../actions/users'),
   {
-      editAnnotation: jest.fn().mockImplementation(() => {
-          return mockEditAnnotation;
+    registerUser: jest.fn().mockImplementation(() => {
+          return mockRegister;
       })
   }
 ));
 
-describe('<EditAnnotationForm />', () => {
-    it
-    ('Renders without crashing', () => {
+describe('<RegisterForm />', () => {
+    it('Renders without crashing', () => {
+
       const handleSubmit = jest.fn();
       const initialize = jest.fn();
       shallow(
-       
-      <EditAnnotationForm handleSubmit= {handleSubmit} initialize= {initialize} />
-    
-    );
-    });
+     
+        <RegisterForm  
+        handleSubmit={handleSubmit} initialize= {initialize} />
+      
+    )});
 
-  
-    it('Should dispatch edit annotation when the form is submitted', () => {
+
+    it('Should dispatch registerUser when the form is submitted', () => {
       const dispatch = jest.fn().mockImplementation( () => Promise.resolve());
       const handleSubmit = jest.fn();
       const initialize = jest.fn();
@@ -46,7 +44,7 @@ describe('<EditAnnotationForm />', () => {
       }
       const wrapper = shallow(
         
-      <EditAnnotationForm  dispatch={ dispatch }    
+      <RegisterForm  dispatch={ dispatch }    
       handleSubmit={handleSubmit} initialize= {initialize}
       history={history} onSubmit ={onSubmit} annotations={[]}/>
       
@@ -57,18 +55,23 @@ describe('<EditAnnotationForm />', () => {
       expect(handleSubmit).toHaveBeenCalled();
      return wrapper.instance().onSubmit({
        
-     title: "daniel",
-     annotation: "capi",}
+      email: "daniel",
+      password: "capi",
+      name: "danielsilba",
+      
+
+
+
+  }
     
     ).then(() => {
 
         
-        expect(dispatch).toHaveBeenCalledWith(mockEditAnnotation);
+        expect(dispatch).toHaveBeenCalledWith(mockRegister);
         expect(history.push).toHaveBeenCalled();
       })
   
  
   });
 
-
-});
+  });

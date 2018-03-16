@@ -1,17 +1,32 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
-import EditAnnotationForm from  './editannotationform'
+import { Link} from 'react-router-dom';
+import EditAnnotationForm from  './editannotationform';
+import {clearAuth} from '../actions/auth';
+import {clearAuthToken} from '../local-storage';
 
 export  class  EditAnnotation extends React.Component {
 
-    
+    logOut() {
+
+        this.props.dispatch(clearAuth());
+        clearAuthToken();
+    }
     
     render() {
 
         return (
             <main className="container">
-                <div className="backBtn"> <Link to={`/bookpage/${this.props.idBook}`}>back </Link></div>
+
+
+                 <div className="container__buttons">
+                    <div className="backBtn"> <Link to={`/bookpage/${this.props.idBook}`}>Back </Link></div>
+                    <div className="logoutBtn" onClick={() => this.logOut()}>
+                        <Link to={`/`}>Logout </Link>
+                    </div>
+     
+     
+                </div>
 
                 <EditAnnotationForm
                  
@@ -31,18 +46,9 @@ export  class  EditAnnotation extends React.Component {
 }
 
 const mapStateToProps = (state, props) => {
-    console.log(props.match.params.bookIndex);
-
-    
-
-
-    
     const book = state.protectedData.data.find((book) => {
         return book.idBook === props.match.params.bookIndex
     })
-
-    console.log(book);
-    console.log(props.match.params.annotationId);
 
     const annotation = book.annotations.find((annot) => {
         return annot.idAnnot === props.match.params.annotationId

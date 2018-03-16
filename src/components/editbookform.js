@@ -1,19 +1,18 @@
 import React from 'react';
-import {reduxForm, Field, SubmissionError, focus} from 'redux-form';
+import {reduxForm, Field, focus} from 'redux-form';
 import Input from './input';
-import {required, nonEmpty, email} from '../validators';
-import {API_BASE_URL} from '../config';
+import {required, nonEmpty} from '../validators';
 import {fetchProtectedData} from '../actions/protected-data';
-import { withRouter } from "react-router-dom";
+import {editBook} from '../actions/index';
+import {withRouter } from 'react-router-dom' // 4.0.0 
+
 
 export class EditBookForm extends React.Component {
-    
-  
 
     componentDidMount() {
         this.props.initialize({ title: `${this.props.title}`,
         authorBook: `${this.props.authorBook}`,
-        url: `${this.props.cover}`,
+        url: `${this.props.url}`,
         pages: `${this.props.pages}`,
         date: `${this.props.date}`,
         description: `${this.props.description}`
@@ -21,7 +20,6 @@ export class EditBookForm extends React.Component {
         // set the value individually
      
       }
-
 
     constructor(props) {
         super(props);
@@ -31,81 +29,25 @@ export class EditBookForm extends React.Component {
 
     
     onSubmit(values) {
-        console.log(values.title);
-       
+
         const title = values.title.trim();
-        const cover = values.url.trim();
+        const url = values.url.trim();
         const authorBook = values.authorBook.trim(); 
         const pages = values.pages.trim();
         const date = values.date.trim();
         const description = values.description.trim();
+        const idEditBook = this.props.idEditBook; 
 
-        // if (title && author && this.props.onAdd) {
-        //     this.props.onAdd(title, author);
-        // }
 
-        
+        this.props.dispatch(editBook(idEditBook,title,url,authorBook,pages,date,description  ));
 
-        return fetch(`${API_BASE_URL}/books/${this.props.idEditBook}`, {
-            method: 'PUT',
-            body: JSON.stringify({
-                id: this.props.idEditBook,
-                title: title,
-                cover: cover,
-                authorBook: authorBook,
-                pages: pages,
-                date: date,
-                description: description
-            }),
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.props.authToken}`
-            }
-        })
-            .then(res => {
-                if (!res.ok) {
-                    if (
-                        res.headers.has('content-type') &&
-                        res.headers
-                            .get('content-type')
-                            .startsWith('application/json')
-                    ) {
-                        // It's a nice JSON error returned by us, so decode it
-                        return res.json().then(err => Promise.reject(err));
-                    }
-                    // It's a less informative error returned by express
-                    return Promise.reject({
-                        code: res.status,
-                        message: res.statusText
-                    });
-                }
-                return;
-            })
-            .then(() =>{
-                console.log('Submittsed with values', values);
-                this.props.dispatch(fetchProtectedData())
+        return this.props.dispatch(fetchProtectedData()).then(
 
+            () => {
                 
-
                 this.props.history.push(`/bookpage/${this.props.idBook}`);
-
-            } )
-            .catch(err => {
-                const {reason, message, location} = err;
-                if (reason === 'ValidationError') {
-                    // Convert ValidationErrors into SubmissionErrors for Redux Form
-                    return Promise.reject(
-                        new SubmissionError({
-                            [location]: message
-                        })
-                    );
-                }
-                return Promise.reject(
-                    new SubmissionError({
-                        _error: 'Error submitting message'
-                    })
-                );
-            }); 
+            }
+        );
     }
 
     render() {
@@ -113,7 +55,7 @@ export class EditBookForm extends React.Component {
         if (this.props.submitSucceeded) {
             successMessage = (
                 <div className="message message-success">
-                    Message submitted successfully
+                    Book saved successfully
                 </div>
             );
         }
@@ -144,7 +86,7 @@ export class EditBookForm extends React.Component {
                     name="url"
                     type="text"
                     component={Input}
-                    value={this.props.cover}
+                    value={this.props.url}
                     label="Cover (URL)"
                     validate={[required, nonEmpty]}
                 />
@@ -153,7 +95,7 @@ export class EditBookForm extends React.Component {
                     name="authorBook"
                     type="text"
                     component={Input}
-                    value={this.props.author}
+                    value={this.props.authorBook}
                     label="Author"
                     validate={[required, nonEmpty]}
                 />
@@ -186,7 +128,7 @@ export class EditBookForm extends React.Component {
                 />
                 <button
                     type="submit"
-                    disabled={this.props.pristine || this.props.submitting}>
+                    disabled={this.props.pristine || this.props.submitting || this.props.submitSucceeded}>
                     Save Book
                 </button>
             </form>
@@ -194,11 +136,18 @@ export class EditBookForm extends React.Component {
     }
 }
 
-const form =  reduxForm({
+
+export const  routedForm =  withRouter(EditBookForm);
+
+export const form =  reduxForm({
     form: 'editform',
     onSubmitFail: (errors, dispatch) =>
         dispatch(focus('editform', Object.keys(errors)[0]))
 })(EditBookForm);
 
 
+
 export default withRouter(form);
+
+
+

@@ -1,15 +1,13 @@
 import React from 'react';
-import {reduxForm, Field, SubmissionError, focus} from 'redux-form';
+import {reduxForm, Field, focus} from 'redux-form';
 import Input from './input';
-import {required, nonEmpty, email} from '../validators';
-import {API_BASE_URL} from '../config';
+import {required, nonEmpty} from '../validators';
 import {fetchProtectedData} from '../actions/protected-data';
-import {deleteBook} from '../actions/index';
 import { withRouter } from "react-router-dom";
 import {editAnnotation} from '../actions/index';
 
 
-export class EditAnnotationForm extends React.Component {
+export  class EditAnnotationForm extends React.Component {
 
     componentDidMount() {
         this.props.initialize({ title: `${this.props.title}`,
@@ -49,18 +47,13 @@ export class EditAnnotationForm extends React.Component {
 
         this.props.dispatch(editAnnotation(idEditBook,newAnnotations ));
 
-        this.props.dispatch(fetchProtectedData());
+        return this.props.dispatch(fetchProtectedData()).then(
             
-        
-      
-            // window.location.href = `/annotation/${this.props.idBook}/${this.props.idAnnot}`  
-       
-
+            () => {
+                
          this.props.history.push(`/annotation/${this.props.idBook}/${this.props.idAnnot}`);
-    
-
-        
-
+            }
+        );
     }
 
     render() {
@@ -68,7 +61,7 @@ export class EditAnnotationForm extends React.Component {
         if (this.props.submitSucceeded) {
             successMessage = (
                 <div className="message message-success">
-                    Message submitted successfully
+                    Annotation saved successfully
                 </div>
             );
         }
@@ -107,20 +100,25 @@ export class EditAnnotationForm extends React.Component {
                 <button
                     type="submit"
                     disabled={this.props.pristine || this.props.submitting}>
-                    Add Book
+                    Save Annotation
                 </button>
             </form>
         );
     }
 }
 
-const form  = reduxForm({
+
+
+export const  routedForm =  withRouter(EditAnnotationForm);
+
+
+export default reduxForm({
     form: 'editannotform',
-    // onSubmitFail: (errors, dispatch) =>
-    //     dispatch(focus('editannotform', Object.keys(errors)[0]))
-})(EditAnnotationForm);
+    onSubmitFail: (errors, dispatch) =>
+        dispatch(focus('editannotform', Object.keys(errors)[0]))
+})(routedForm);
 
 
-export default withRouter(form);
 
-// export default form;
+
+

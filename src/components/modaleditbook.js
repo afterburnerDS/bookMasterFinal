@@ -1,8 +1,9 @@
 import React from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Popover, Tooltip, OverlayTrigger  } from 'react-bootstrap';
+import {connect} from 'react-redux';
+import { Button, Modal  } from 'react-bootstrap';
 import EditBookForm from './editbookform';
 
-export default class ModalEditBook extends React.Component {
+export  class ModalEditBook extends React.Component {
     constructor(props, context) {
         super(props, context);
     
@@ -33,14 +34,14 @@ export default class ModalEditBook extends React.Component {
 
     <Modal show={this.state.show} onHide={this.handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Modal heading</Modal.Title>
+        <Modal.Title>Edit Book</Modal.Title>
       </Modal.Header>
       <Modal.Body>
 
         <EditBookForm
           title = {this.props.title}
           authorBook = {this.props.authorBook}
-          cover = {this.props.cover}
+          url = {this.props.url}
           date = {this.props.date}       
           pages = {this.props.pages}
           description = {this.props.description}
@@ -58,3 +59,5 @@ export default class ModalEditBook extends React.Component {
         );
       }
   }
+
+  export default connect()(ModalEditBook);

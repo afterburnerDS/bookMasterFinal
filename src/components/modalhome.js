@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Popover, Tooltip, OverlayTrigger, Tab, Tabs  } from 'react-bootstrap';
+import { Button, Modal, Tab, Tabs  } from 'react-bootstrap';
 import LoginForm from './loginform'
 import RegisterForm from './registerform'
 
@@ -24,11 +24,6 @@ export  class ModalHome extends React.Component {
       handleShow() {
         this.setState({ show: true });
       }
-
-    //   addAnnotation(title, annotation){
-    //     console.log(this.props.bookIndex);
-    //     this.props.dispatch(addAnnotation(title,annotation,this.props.bookIndex));
-    // }
     
       render() {
         
@@ -36,7 +31,7 @@ export  class ModalHome extends React.Component {
         return (
             <div>
               <Button bsStyle="primary" bsSize="large" onClick={this.handleShow}>
-              Login
+              Login / Register
             </Button>
             <Modal show={this.state.show} onHide={this.handleClose}>
               

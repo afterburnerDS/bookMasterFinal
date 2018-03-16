@@ -1,9 +1,11 @@
 import React from 'react';
-import {reduxForm, Field, SubmissionError, focus} from 'redux-form';
+import {reduxForm, Field, focus} from 'redux-form';
 import Input from './input';
-import {required, nonEmpty, email} from '../validators';
-import {API_BASE_URL} from '../config';
+import {required, nonEmpty} from '../validators';
 import {fetchProtectedData} from '../actions/protected-data';
+import {newBook} from '../actions/index';
+import {withRouter } from 'react-router-dom' // 4.0.0 
+
 
 export class NewBook extends React.Component {
     
@@ -24,9 +26,7 @@ export class NewBook extends React.Component {
       }
 
     onSubmit(values) {
-        console.log(values.url);
-        // event.preventDefault();
-
+      
         const idBook = this.guid();
        const title = values.title.trim();
         const url = values.url.trim();
@@ -35,69 +35,19 @@ export class NewBook extends React.Component {
         const date = values.date.trim();
         const description = values.description.trim();
 
-        console.log(idBook);
-        console.log(this.props.authToken);
-        return fetch(`${API_BASE_URL}/books`, {
-           
-            method: 'POST',
-            body: JSON.stringify({
-                
-                idBook: idBook,
-                title: title,
-               authorBook: authorBook,
-               url: url,
-               date: date,
-               pages: pages,
-               description: description   
-            }),
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.props.authToken}`
-            }
-        })
-            .then(res => {
-                if (!res.ok) {
-                    if (
-                        res.headers.has('content-type') &&
-                        res.headers
-                            .get('content-type')
-                            .startsWith('application/json')
-                    ) {
-                        // It's a nice JSON error returned by us, so decode it
-                        return res.json().then(err => Promise.reject(err));
-                    }
-                    // It's a less informative error returned by express
-                    return Promise.reject({
-                        code: res.status,
-                        message: res.statusText
-                    });
-                }
-                return ;
-            })
-            .then(() =>{
-                console.log('Submitted with values', values)
+      
+
         
-                this.props.dispatch(fetchProtectedData())
+        this.props.dispatch(newBook(idBook, title, url, authorBook, pages, date, description  ));
 
+        return this.props.dispatch(fetchProtectedData()).then(
 
-
-            } )
-            .catch(err => {
-                const {reason, message, location} = err;
-                if (reason === 'ValidationError') {
-                    // Convert ValidationErrors into SubmissionErrors for Redux Form
-                    return Promise.reject(
-                        new SubmissionError({
-                            [location]: message
-                        })
-                    );
-                }
-                return Promise.reject(
-                    new SubmissionError({
-                        _error: 'Error submitting message'
-                    })
-                );
-            });
+            () => {
+                
+                this.props.history.push(`/bookshelf`);
+            }
+            
+        );
 
             
     }
@@ -107,7 +57,7 @@ export class NewBook extends React.Component {
         if (this.props.submitSucceeded) {
             successMessage = (
                 <div className="message message-success">
-                    Message submitted successfully
+                    Book added successfully
                 </div>
             );
         }
@@ -174,7 +124,7 @@ export class NewBook extends React.Component {
                 />
                 <button
                     type="submit"
-                    disabled={this.props.pristine || this.props.submitting}>
+                    disabled={this.props.pristine || this.props.submitting || this.props.submitSucceeded}>
                     Add Book
                 </button>
             </form>
@@ -182,8 +132,13 @@ export class NewBook extends React.Component {
     }
 }
 
-export default reduxForm({
+
+export const  routedForm =  withRouter(NewBook);
+
+export const form =  reduxForm({
     form: 'newbook',
-    // onSubmitFail: (errors, dispatch) =>
-    //     dispatch(focus('contact', Object.keys(errors)[0]))
+    onSubmitFail: (errors, dispatch) =>
+        dispatch(focus('contact', Object.keys(errors)[0]))
 })(NewBook);
+
+export default withRouter(form);
