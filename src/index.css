@@ -746,6 +746,12 @@ FORM
       background-color: #5CB85C;
       color: white;
   }
+
+
+  .message-loading {
+    background-color: #916F40;
+    color: white;
+}
   
   .message-error, .form-error {
       background-color: #AE1E23;

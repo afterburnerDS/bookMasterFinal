@@ -5,6 +5,7 @@ import {required, nonEmpty} from '../validators';
 import {fetchProtectedData} from '../actions/protected-data';
 import {newBook} from '../actions/index';
 import {withRouter } from 'react-router-dom' // 4.0.0 
+import {connect} from 'react-redux';
 
 
 export class NewBook extends React.Component {
@@ -53,6 +54,14 @@ export class NewBook extends React.Component {
     }
 
     render() {
+
+    //     let loadingMessage
+    //     if(this.props.loading){
+
+    //    loadingMessage=     <div className="message message-loading">
+    //                 Loading
+    //             </div>
+    //     }
         let successMessage;
         if (this.props.submitSucceeded) {
             successMessage = (
@@ -74,6 +83,7 @@ export class NewBook extends React.Component {
                 onSubmit={this.props.handleSubmit(values =>
                     this.onSubmit(values)
                 )}>
+                {/* {loadingMessage} */}
                 {successMessage}
                 {errorMessage}
                 <Field
@@ -132,6 +142,13 @@ export class NewBook extends React.Component {
     }
 }
 
+// const mapStateToProps = state => ({
+//     loading: state.auth.loading !== null
+// });
+
+// export default connect(mapStateToProps)(Home);
+
+
 
 export const  routedForm =  withRouter(NewBook);
 
@@ -141,4 +158,4 @@ export const form =  reduxForm({
         dispatch(focus('contact', Object.keys(errors)[0]))
 })(NewBook);
 
-export default withRouter(form);
+export default withRouter((form));

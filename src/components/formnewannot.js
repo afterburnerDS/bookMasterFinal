@@ -32,16 +32,11 @@ export  class FormNewAnnot extends React.Component {
         const annotations = this.props.annotations;
 
 
-        this.props.dispatch(newAnnotation(idEditBook, annotations, idAnnot, title, annotation ));
-
-        return this.props.dispatch(fetchProtectedData()).then(
-
-            () => {
-                
-                this.props.history.push(`/bookpage/${this.props.idBook}`);
-            }
-        );
-        
+         return this.props.dispatch(newAnnotation(idEditBook, annotations, idAnnot, title, annotation )).then( () => this.props.dispatch(fetchProtectedData())
+         
+         
+         .then(() => this.props.history.push(`/bookpage/${this.props.idBook}`))
+    )
    
 
         
