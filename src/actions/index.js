@@ -147,7 +147,10 @@ export const newAnnotation = (idEditBook, annotations, idAnnot, title, annotatio
                 });
             }
             return;
-        })
+        }).then(
+
+            console.log("Submited")
+        )
         .catch(err => {
             const {reason, message, location} = err;
             if (reason === 'ValidationError') {

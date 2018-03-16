@@ -10,6 +10,7 @@ const initialState = {
 
 export default function reducer(state = initialState, action) {
     if (action.type === FETCH_PROTECTED_DATA_SUCCESS) {
+
         return Object.assign({}, state, {
             data: action.data,
             error: null
@@ -19,5 +20,6 @@ export default function reducer(state = initialState, action) {
             error: action.error
         });
     }
+    console.log(state.data.lenght);
     return state;
 }

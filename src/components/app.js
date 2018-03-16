@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Route, withRouter} from 'react-router-dom';
 import Home from './home';
 import Bookshelf from './bookshelf';
 import BookPage from './bookpage';
@@ -13,34 +13,34 @@ import './app.css';
 
 export class App extends React.Component {
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.loggedIn && !this.props.loggedIn) {
-            // When we are logged in, refresh the auth token periodically
-            this.startPeriodicRefresh();
-        } else if (!nextProps.loggedIn && this.props.loggedIn) {
-            // Stop refreshing when we log out
-            this.stopPeriodicRefresh();
-        }
-    }
+    // componentWillReceiveProps(nextProps) {
+    //     if (nextProps.loggedIn && !this.props.loggedIn) {
+    //         // When we are logged in, refresh the auth token periodically
+    //         this.startPeriodicRefresh();
+    //     } else if (!nextProps.loggedIn && this.props.loggedIn) {
+    //         // Stop refreshing when we log out
+    //         this.stopPeriodicRefresh();
+    //     }
+    // }
 
-    componentWillUnmount() {
-        this.stopPeriodicRefresh();
-    }
+    // componentWillUnmount() {
+    //     this.stopPeriodicRefresh();
+    // }
 
-    startPeriodicRefresh() {
-        this.refreshInterval = setInterval(
-            () => this.props.dispatch(refreshAuthToken()),
-            60 * 60 * 1000 // One hour
-        );
-    }
+    // startPeriodicRefresh() {
+    //     this.refreshInterval = setInterval(
+    //         () => this.props.dispatch(refreshAuthToken()),
+    //         60 * 60 * 1000 // One hour
+    //     );
+    // }
 
-    stopPeriodicRefresh() {
-        if (!this.refreshInterval) {
-            return;
-        }
+    // stopPeriodicRefresh() {
+    //     if (!this.refreshInterval) {
+    //         return;
+    //     }
 
-        clearInterval(this.refreshInterval);
-    }
+    //     clearInterval(this.refreshInterval);
+    // }
     
     
     render() {

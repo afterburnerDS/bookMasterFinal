@@ -86,6 +86,7 @@ BookShelf.defaultProps = {
 
 const mapStateToProps = (state, props) => {
 
+    console.log(state.protectedData.data.length);
   
     
    return{
@@ -97,12 +98,9 @@ const mapStateToProps = (state, props) => {
     
 };
 
+export default (connect(mapStateToProps)(BookShelf));
 
-
-
-export default requiresLogin()(connect(mapStateToProps)(BookShelf));
-
-
+// requiresLogin()
 // export default connect(mapStateToProps)(BookShelf);
 
 
