@@ -3,9 +3,9 @@ module.exports = {
     // other stuff
     API_BASE_URL: process.env.REACT_APP_API_BASE_URL ||  
     
-    // "https://stormy-badlands-44481.herokuapp.com"  
+    "https://stormy-badlands-44481.herokuapp.com"  
     
-    "http://localhost:3006" 
+    // "http://localhost:3006" 
     
     
      
