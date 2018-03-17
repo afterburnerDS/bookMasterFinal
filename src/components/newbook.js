@@ -40,13 +40,13 @@ export class NewBook extends React.Component {
     const title = values.title.trim();
     const url = values.url.trim();
     const authorBook = values.authorBook.trim();
-    const pages = values.pages.trim();
     const date = values.date.trim();
+    const pages = values.pages.trim();
     const description = values.description.trim();
 
     return this.props
       .dispatch(
-        newBook(idBook, title, url, authorBook, pages, date, description)
+        newBook(idBook, title, url, authorBook, date, pages, description)
       )
       .then(() => this.props.dispatch(fetchProtectedData()))
       .then(() => this.props.history.push(`/bookshelf`));
@@ -96,18 +96,18 @@ export class NewBook extends React.Component {
         />
 
         <Field
-          name="pages"
-          type="text"
-          component={Input}
-          label="Pages"
-          validate={[required, nonEmpty]}
-        />
-
-        <Field
           name="date"
           type="text"
           component={Input}
           label="Date of Publication"
+          validate={[required, nonEmpty]}
+        />
+
+        <Field
+          name="pages"
+          type="text"
+          component={Input}
+          label="Pages"
           validate={[required, nonEmpty]}
         />
 

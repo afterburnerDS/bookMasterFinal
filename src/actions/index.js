@@ -227,8 +227,8 @@ export const editBook = (
   title,
   url,
   authorBook,
-  pages,
   date,
+  pages,
   description
 ) => (dispatch, getState) => {
   const authToken = getState().auth.authToken;
@@ -239,8 +239,8 @@ export const editBook = (
       title: title,
       url: url,
       authorBook: authorBook,
-      pages: pages,
       date: date,
+      pages: pages,
       description: description
     }),
     headers: {
