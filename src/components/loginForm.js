@@ -28,6 +28,7 @@ export class LoginForm extends React.Component {
           type="text"
           component={Input}
           label="Email"
+          id="emailLogin"
           validate={[required, nonEmpty]}
         />
         <Field
@@ -35,6 +36,7 @@ export class LoginForm extends React.Component {
           type="password"
           component={Input}
           label="Password"
+          id="passwordLogin"
           validate={[required, nonEmpty]}
         />
 

@@ -14,8 +14,6 @@ export class FormDeleteAnnotation extends React.Component {
       date: `${this.props.date}`,
       description: `${this.props.description}`
     });
-    // set the value individually
-    // this.props.dispatch(change('myFormName', 'anotherField', 'value'));
   }
 
   constructor(props) {
