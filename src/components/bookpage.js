@@ -73,7 +73,7 @@ export class BookPage extends React.Component {
                 <p className="titleBook">{this.props.title}</p>
                 <p className="authorBook">{this.props.authorBook}</p>
                 <p className="dateBook">
-                  Year:&nbsp;
+                  Date of Publication:&nbsp;
                   <span className="dateBook__span">{this.props.date}</span>
                 </p>
                 <p className="pagesBook">
