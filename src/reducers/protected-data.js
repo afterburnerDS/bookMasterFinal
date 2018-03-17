@@ -20,6 +20,8 @@ export default function reducer(state = initialState, action) {
             error: action.error
         });
     }
+    
+    
     console.log(state.data.lenght);
     return state;
 }

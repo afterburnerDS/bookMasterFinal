@@ -35,17 +35,9 @@ export class NewBook extends React.Component {
         const date = values.date.trim();
         const description = values.description.trim();
 
-        this.props.dispatch(newBook(idBook, title, url, authorBook, pages, date, description  ));
-
-        return this.props.dispatch(fetchProtectedData()).then(
-
-            () => {
-                
-                this.props.history.push(`/bookshelf`);
-            }
-            
-        );
-
+        return this.props.dispatch(newBook(idBook, title, url, authorBook, pages, date, description  ))
+        .then( () => this.props.dispatch(fetchProtectedData()))
+        .then(() => this.props.history.push(`/bookshelf`));
             
     }
 

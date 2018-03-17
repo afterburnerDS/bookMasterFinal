@@ -19,6 +19,7 @@ export  class  AnnotaionPage extends React.Component {
             <main className="container">
                 <div className="container__buttons">
                     <div className="backBtn"> <Link to={`/bookpage/${this.props.idBook}`}>Back </Link></div>
+                    
                     <div className="logoutBtn" onClick={() => this.logOut()}>
                         <Link to={`/`}>Logout </Link>
                     </div>
